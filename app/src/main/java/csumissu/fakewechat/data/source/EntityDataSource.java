@@ -15,6 +15,8 @@ public interface EntityDataSource {
 
     Observable<User> getOwner();
 
+    void saveOwner(User user);
+
     Observable<StatusResult> getStatusResult();
 
     void saveStatusResult(StatusResult statusResult);

@@ -49,6 +49,11 @@ public class RemoteDataSource implements EntityDataSource {
     }
 
     @Override
+    public void saveOwner(User user) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Observable<StatusResult> getStatusResult() {
         return mWeiboApi.getPublicStatuses(WeiboApi.ACCESS_TOKEN, 200);
     }
@@ -60,8 +65,7 @@ public class RemoteDataSource implements EntityDataSource {
 
     @Override
     public Observable<List<Status>> getStatuses(int count, int page) {
-        return getStatusResult().map(statusResult -> {
-            return statusResult.getStatuses().subList(count * page, count * (page + 1));
-        });
+        return getStatusResult().map(statusResult ->
+                statusResult.getStatuses().subList(count * page, count * (page + 1)));
     }
 }
