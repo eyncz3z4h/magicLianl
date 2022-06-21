@@ -7,6 +7,7 @@ import java.util.List;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.data.StatusResult;
 import csumissu.fakewechat.data.User;
+import csumissu.fakewechat.util.Preconditions;
 import rx.Observable;
 
 /**
@@ -22,6 +23,8 @@ public class EntityRepository implements EntityDataSource {
 
     private EntityRepository(@NonNull EntityDataSource localDataSource,
                              @NonNull EntityDataSource remoteDataSource) {
+        Preconditions.checkNotNull(localDataSource);
+        Preconditions.checkNotNull(remoteDataSource);
         mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
     }
