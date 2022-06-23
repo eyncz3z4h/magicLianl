@@ -7,8 +7,9 @@ import java.util.List;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.data.StatusResult;
 import csumissu.fakewechat.data.User;
-import csumissu.fakewechat.util.Preconditions;
 import rx.Observable;
+
+import static csumissu.fakewechat.util.Preconditions.checkNotNull;
 
 /**
  * @author sunyaxi
@@ -23,8 +24,8 @@ public class EntityRepository implements EntityDataSource {
 
     private EntityRepository(@NonNull EntityDataSource localDataSource,
                              @NonNull EntityDataSource remoteDataSource) {
-        Preconditions.checkNotNull(localDataSource);
-        Preconditions.checkNotNull(remoteDataSource);
+        checkNotNull(localDataSource);
+        checkNotNull(remoteDataSource);
         mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
     }
@@ -39,13 +40,15 @@ public class EntityRepository implements EntityDataSource {
 
     @Override
     public Observable<User> getOwner() {
-        Observable<User> memory = Observable.just(mOwner);
+        if (mOwner != null) {
+            return Observable.just(mOwner);
+        }
         Observable<User> disk = mLocalDataSource.getOwner().doOnNext(this::saveOwner);
         Observable<User> network = mRemoteDataSource.getOwner().doOnNext(user -> {
             saveOwner(user);
             mLocalDataSource.saveOwner(user);
         });
-        return Observable.concat(memory, disk, network).first();
+        return Observable.concat(disk, network).first();
     }
 
     @Override
