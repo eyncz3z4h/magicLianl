@@ -1,7 +1,6 @@
 package csumissu.fakewechat.comments;
 
 import android.support.annotation.NonNull;
-
 import csumissu.fakewechat.data.source.EntityRepository;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -26,7 +25,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     @Override
     public void start() {
         loadOwner();
-        loadAllStatuses(false);
+        loadAllStatuses();
     }
 
     @Override
@@ -34,20 +33,22 @@ public class CommentsPresenter implements CommentsContract.Presenter {
         mRepository.getOwner()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mView::showOwner);
+                .subscribe(mView::showOwner, throwable -> {
+                    mView.showError("loadOwner failed! " + throwable.getMessage());
+                });
     }
 
     @Override
-    public void loadAllStatuses(boolean forceUpdate) {
+    public void loadAllStatuses() {
         mRepository.getStatusResult()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> mView.setRefreshIndicator(true))
                 .doOnTerminate(() -> mView.setRefreshIndicator(false))
                 .subscribe(statusResult -> {
-                    loadStatuses(1, false);
+                    loadStatuses(0, false);
                 }, throwable -> {
-                    mView.showLoadingError();
+                    mView.showError("loadAllStatuses failed! " + throwable.getMessage());
                 });
     }
 
@@ -71,7 +72,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
                     }
                 })
                 .subscribe(mView::showStatuses, throwable -> {
-                    mView.showLoadingError();
+                    mView.showError("loadStatuses failed! " + throwable.getMessage());
                 });
     }
 

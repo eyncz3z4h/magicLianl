@@ -17,7 +17,7 @@ public interface CommentsContract {
 
         void loadOwner();
 
-        void loadAllStatuses(boolean forceUpdate);
+        void loadAllStatuses();
 
         void loadStatuses(int page);
 
@@ -33,7 +33,7 @@ public interface CommentsContract {
 
         void showStatuses(List<Status> statuses);
 
-        void showLoadingError();
+        void showError(String message);
 
     }
 }
