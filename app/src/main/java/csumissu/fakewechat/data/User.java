@@ -2,11 +2,13 @@ package csumissu.fakewechat.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * @author sunyaxi
  * @date 2016/5/20
  */
-public class User {
+public class User implements Serializable {
 
     @SerializedName("id")
     private long uid;
@@ -18,6 +20,8 @@ public class User {
     private String imageUrl;
     @SerializedName("gender")
     private String gender;
+    @SerializedName("avatar_large")
+    private String avatar;
 
     public long getUid() {
         return uid;
@@ -59,6 +63,14 @@ public class User {
         this.gender = gender;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -67,6 +79,7 @@ public class User {
                 ", location='" + location + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", gender='" + gender + '\'' +
+                ", avatar='" + avatar + '\'' +
                 '}';
     }
 }

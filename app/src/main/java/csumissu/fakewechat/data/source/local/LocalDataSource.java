@@ -77,8 +77,12 @@ public class LocalDataSource implements EntityDataSource {
 
     @Override
     public Observable<List<Status>> getStatuses(int count, int page) {
-        return getStatusResult().map(statusResult ->
-                statusResult.getStatuses().subList(count * page, count * (page + 1)));
+        return getStatusResult().map(statusResult -> {
+                    int size = statusResult.getStatuses().size();
+                    int startIndex = Math.max(0, Math.min(count * page, size - 1));
+                    int endIndex = Math.max(startIndex, Math.min(count * (page + 1), size));
+                    return statusResult.getStatuses().subList(startIndex, endIndex);
+                });
     }
 
 }

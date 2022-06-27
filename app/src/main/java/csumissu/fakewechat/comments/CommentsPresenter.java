@@ -24,7 +24,6 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
     @Override
     public void start() {
-        loadOwner();
         loadAllStatuses();
     }
 

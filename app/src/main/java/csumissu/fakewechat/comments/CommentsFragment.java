@@ -44,6 +44,7 @@ public class CommentsFragment extends Fragment implements CommentsContract.View 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new CommentsAdapter(getContext());
+        mPresenter.loadOwner();
     }
 
     @Override
@@ -84,7 +85,7 @@ public class CommentsFragment extends Fragment implements CommentsContract.View 
 
     @Override
     public void showOwner(User owner) {
-        ((CommentsActivity) getActivity()).showOwner(owner);
+        ((CommentsActivity) getActivity()).showOwnerInternal(owner);
     }
 
     @Override

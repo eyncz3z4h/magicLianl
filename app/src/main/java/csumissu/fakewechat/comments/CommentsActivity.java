@@ -3,28 +3,24 @@ package csumissu.fakewechat.comments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import com.bumptech.glide.Glide;
 
-import java.util.List;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
-import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.data.User;
 import csumissu.fakewechat.data.source.EntityRepository;
 import csumissu.fakewechat.data.source.local.LocalDataSource;
 import csumissu.fakewechat.data.source.remote.RemoteDataSource;
 import csumissu.fakewechat.util.ActivityUtils;
-import csumissu.fakewechat.widget.RecycleViewDivider;
 
 /**
  * @author sunyaxi
@@ -50,7 +46,7 @@ public class CommentsActivity extends AppCompatActivity implements AppBarLayout.
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        // actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
         Glide.with(this).load(R.drawable.photo).centerCrop().into(mAppBarImage);
 
@@ -81,6 +77,23 @@ public class CommentsActivity extends AppCompatActivity implements AppBarLayout.
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.comments, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                break;
+            case R.menu.comments:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         int appBarHeight = getResources().getDimensionPixelSize(R.dimen.app_bar_height);
         ActionBar actionBar = getSupportActionBar();
@@ -90,8 +103,8 @@ public class CommentsActivity extends AppCompatActivity implements AppBarLayout.
                 ? View.VISIBLE : View.GONE);
     }
 
-    public void showOwner(User owner) {
-        Glide.with(this).load(owner.getImageUrl()).into(mOwnerPhoto);
+    void showOwnerInternal(User owner) {
+        Glide.with(this).load(owner.getAvatar()).into(mOwnerPhoto);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle(owner.getName());
