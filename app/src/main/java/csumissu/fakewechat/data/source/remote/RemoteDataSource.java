@@ -1,5 +1,7 @@
 package csumissu.fakewechat.data.source.remote;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -20,6 +22,7 @@ import rx.Observable;
  */
 public class RemoteDataSource implements EntityDataSource {
 
+    private static final String TAG = RemoteDataSource.class.getSimpleName();
     private static RemoteDataSource INSTANCE;
     private WeiboApi mWeiboApi;
 
@@ -69,6 +72,7 @@ public class RemoteDataSource implements EntityDataSource {
                     int size = statusResult.getStatuses().size();
                     int startIndex = Math.max(0, Math.min(count * page, size - 1));
                     int endIndex = Math.max(startIndex, Math.min(count * (page + 1), size));
+                    Log.d(TAG, "size=" + size + ", start=" + startIndex + ", end=" + endIndex);
                     return statusResult.getStatuses().subList(startIndex, endIndex);
                 });
 

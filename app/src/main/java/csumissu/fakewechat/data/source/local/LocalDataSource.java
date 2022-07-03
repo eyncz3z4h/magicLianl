@@ -2,6 +2,7 @@ package csumissu.fakewechat.data.source.local;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +22,7 @@ import rx.Observable;
  */
 public class LocalDataSource implements EntityDataSource {
 
+    private static final String TAG = LocalDataSource.class.getSimpleName();
     private static LocalDataSource INSTANCE;
     private Context mContext;
     private Gson mGson;
@@ -81,6 +83,7 @@ public class LocalDataSource implements EntityDataSource {
                     int size = statusResult.getStatuses().size();
                     int startIndex = Math.max(0, Math.min(count * page, size - 1));
                     int endIndex = Math.max(startIndex, Math.min(count * (page + 1), size));
+                    Log.d(TAG, "size=" + size + ", start=" + startIndex + ", end=" + endIndex);
                     return statusResult.getStatuses().subList(startIndex, endIndex);
                 });
     }

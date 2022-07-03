@@ -38,6 +38,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         mStatuses = checkNotNull(statuses);
     }
 
+    public void addData(@NonNull List<Status> statuses) {
+        mStatuses.addAll(checkNotNull(statuses));
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(mContext)
@@ -47,7 +51,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Status status = mStatuses.get(position);
-        Glide.with(mContext).load(status.getSender().getImageUrl()).into(holder.senderPhoto);
+        Glide.with(mContext).load(status.getSender().getImageUrl())
+                .placeholder(R.drawable.ic_photo_placeholder)
+                .into(holder.senderPhoto);
         holder.senderName.setText(status.getSender().getName());
         holder.statusContent.setText(status.getText());
     }

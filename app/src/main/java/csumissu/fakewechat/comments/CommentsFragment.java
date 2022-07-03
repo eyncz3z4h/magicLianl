@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,7 +22,8 @@ import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.data.User;
-import csumissu.fakewechat.widget.RecycleViewDivider;
+import csumissu.fakewechat.widget.HorizontalDividerItemDecoration;
+import csumissu.fakewechat.widget.OnRecyclerViewScrollListener;
 
 import static csumissu.fakewechat.util.Preconditions.checkNotNull;
 
@@ -31,6 +34,7 @@ import static csumissu.fakewechat.util.Preconditions.checkNotNull;
 public class CommentsFragment extends Fragment implements CommentsContract.View,
         SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String TAG = CommentsFragment.class.getSimpleName();
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_refresh_layout)
@@ -38,6 +42,10 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
     private CommentsContract.Presenter mPresenter;
     private CommentsAdapter mAdapter;
     private float mProgressViewOffset;
+
+    private boolean mIsLoadingMore = false;
+    private int mCurrentPage = 0;
+    private static final int MAX_PAGE = 10;
 
     public CommentsFragment() {
         // Requires empty public constructor
@@ -47,7 +55,6 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new CommentsAdapter(getContext());
-        mPresenter.loadOwner();
         mProgressViewOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 24, getResources().getDisplayMetrics());
     }
@@ -71,13 +78,33 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
         ButterKnife.bind(this, rootView);
         // 第一次进入页面的时候显示加载进度条
         mRefreshLayout.setProgressViewOffset(false, 0, (int) mProgressViewOffset);
+        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        mRecyclerView.addItemDecoration(new RecycleViewDivider(getContext(),
-                LinearLayoutManager.VERTICAL));
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext())
+                .colorResId(R.color.WhiteSmoke).sizeResId(R.dimen.divider).build());
+        mRecyclerView.addOnScrollListener(new OnRecyclerViewScrollListener() {
+            @Override
+            public void onTop() {
+            }
+
+            @Override
+            public void onBottom() {
+                Log.d(TAG, "onBottom() mIsLoadingMore=" + mIsLoadingMore + ", mCurrentPage=" + mCurrentPage);
+                if (mCurrentPage >= MAX_PAGE) {
+                    Toast.makeText(getContext(), R.string.no_more_statuses, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!mIsLoadingMore) {
+                    mIsLoadingMore = true;
+                    mRefreshLayout.setEnabled(false);
+                    mPresenter.loadStatuses(++mCurrentPage);
+                }
+            }
+        });
         return rootView;
     }
 
@@ -93,22 +120,32 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
 
     @Override
     public void showOwner(User owner) {
+        Log.d(TAG, "showOwner() " + owner);
         ((CommentsActivity) getActivity()).showOwnerInternal(owner);
     }
 
     @Override
     public void showStatuses(List<Status> statuses) {
-        mAdapter.setData(statuses);
+        if (mIsLoadingMore) {
+            mAdapter.addData(statuses);
+            mIsLoadingMore = false;
+        } else {
+            mAdapter.setData(statuses);
+        }
         mAdapter.notifyDataSetChanged();
+        mRefreshLayout.setEnabled(true);
     }
 
     @Override
     public void showError(String message) {
         Snackbar.make(mRefreshLayout, message, Snackbar.LENGTH_LONG).show();
+        mRefreshLayout.setEnabled(true);
     }
 
     @Override
     public void onRefresh() {
+        mCurrentPage = 0;
+        mIsLoadingMore = false;
         mPresenter.loadAllStatuses();
     }
 }
