@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,9 +31,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     private Context mContext;
     private List<Status> mStatuses = new ArrayList<>();
+    private LayoutInflater mLayoutInflater;
 
     public CommentsAdapter(Context context) {
         mContext = context;
+        mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     public void setData(@NonNull List<Status> statuses) {
@@ -44,8 +48,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.list_item_comments, parent, false));
+        return new ViewHolder(mLayoutInflater.inflate(R.layout.list_item_comments, parent, false));
     }
 
     @Override
@@ -56,6 +59,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 .into(holder.senderPhoto);
         holder.senderName.setText(status.getSender().getName());
         holder.statusContent.setText(status.getText());
+        holder.statusPictures.setAdapter(new GridAdapter(status.getPicUrls()));
     }
 
     @Override
@@ -71,10 +75,68 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         TextView senderName;
         @BindView(R.id.status_content)
         TextView statusContent;
+        @BindView(R.id.status_pictures)
+        GridView statusPictures;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+    }
+
+    class GridAdapter extends BaseAdapter {
+
+        private List<Status.Picture> pictures;
+
+        public GridAdapter(@NonNull List<Status.Picture> pictures) {
+            this.pictures = checkNotNull(pictures);
+        }
+
+        @Override
+        public int getCount() {
+            return pictures.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return pictures.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            GridViewHolder viewHolder;
+            if (convertView != null) {
+                viewHolder = (GridViewHolder) convertView.getTag(R.id.glide_tag);
+            } else {
+                convertView = mLayoutInflater.inflate(R.layout.grid_item_picture, parent, false);
+                viewHolder = new GridViewHolder(convertView);
+                convertView.setTag(R.id.glide_tag, viewHolder);
+            }
+            Status.Picture picture = (Status.Picture) getItem(position);
+            Glide.with(mContext).load(picture.getThumbnail())
+                    .placeholder(R.drawable.ic_photo_placeholder)
+                    .into(viewHolder.photo);
+            viewHolder.photo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println(picture.getMiddle());
+                }
+            });
+            return convertView;
+        }
+
+        class GridViewHolder {
+            @BindView(R.id.status_photo)
+            ImageView photo;
+
+            public GridViewHolder(View itemView) {
+                ButterKnife.bind(this, itemView);
+            }
         }
     }
 }

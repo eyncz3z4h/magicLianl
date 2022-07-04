@@ -60,8 +60,8 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         mPresenter.start();
     }
 
@@ -93,7 +93,6 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
 
             @Override
             public void onBottom() {
-                Log.d(TAG, "onBottom() mIsLoadingMore=" + mIsLoadingMore + ", mCurrentPage=" + mCurrentPage);
                 if (mCurrentPage >= MAX_PAGE) {
                     Toast.makeText(getContext(), R.string.no_more_statuses, Toast.LENGTH_SHORT).show();
                     return;

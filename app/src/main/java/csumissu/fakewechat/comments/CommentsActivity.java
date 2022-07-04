@@ -6,6 +6,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import csumissu.fakewechat.util.ActivityUtils;
  */
 public class CommentsActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
+    private static final String TAG = CommentsActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.app_bar_image)
@@ -104,10 +106,10 @@ public class CommentsActivity extends AppCompatActivity implements AppBarLayout.
     }
 
     void showOwnerInternal(User owner) {
-        Glide.with(this).load(owner.getAvatar()).into(mOwnerPhoto);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle(owner.getName());
+        Glide.with(this).load(owner.getAvatar()).into(mOwnerPhoto);
     }
 
 }

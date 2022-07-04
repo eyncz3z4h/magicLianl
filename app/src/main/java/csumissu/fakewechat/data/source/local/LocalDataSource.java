@@ -74,6 +74,7 @@ public class LocalDataSource implements EntityDataSource {
 
     @Override
     public void saveStatusResult(StatusResult statusResult) {
+        Log.d(TAG, "saveStatusResult() " + statusResult);
         mFileManager.writeToFile(mResultFile, mGson.toJson(statusResult));
     }
 

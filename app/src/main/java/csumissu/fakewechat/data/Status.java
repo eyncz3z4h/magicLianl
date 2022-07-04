@@ -1,5 +1,7 @@
 package csumissu.fakewechat.data;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -74,7 +76,22 @@ public class Status {
 
     public class Picture {
         @SerializedName("thumbnail_pic")
-        String thumbnail;
+        private String thumbnail;
+
+        public String getThumbnail() {
+            return thumbnail;
+        }
+
+        public void setThumbnail(String thumbnail) {
+            this.thumbnail = thumbnail;
+        }
+
+        public String getMiddle() {
+            if (TextUtils.isEmpty(thumbnail)) {
+                return null;
+            }
+            return thumbnail.replaceFirst("thumbnail", "bmiddle");
+        }
 
         @Override
         public String toString() {
