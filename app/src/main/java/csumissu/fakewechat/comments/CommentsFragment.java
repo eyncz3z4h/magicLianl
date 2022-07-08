@@ -54,7 +54,7 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new CommentsAdapter(getContext());
+        mAdapter = new CommentsAdapter(getContext(), getFragmentManager());
         mProgressViewOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 24, getResources().getDisplayMetrics());
     }
@@ -80,7 +80,7 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
         mRefreshLayout.setProgressViewOffset(false, 0, (int) mProgressViewOffset);
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRefreshLayout.setOnRefreshListener(this);
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));

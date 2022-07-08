@@ -2,6 +2,7 @@ package csumissu.fakewechat.comments;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
+import csumissu.fakewechat.common.PictureViewFragment;
 import csumissu.fakewechat.data.Status;
 
 import static csumissu.fakewechat.util.Preconditions.checkNotNull;
@@ -32,10 +34,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     private Context mContext;
     private List<Status> mStatuses = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
+    private FragmentManager mFragmentManager;
 
-    public CommentsAdapter(Context context) {
+    public CommentsAdapter(Context context, FragmentManager fragmentManager) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
+        mFragmentManager = fragmentManager;
     }
 
     public void setData(@NonNull List<Status> statuses) {
@@ -121,11 +125,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             Glide.with(mContext).load(picture.getThumbnail())
                     .placeholder(R.drawable.ic_photo_placeholder)
                     .into(viewHolder.photo);
-            viewHolder.photo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println(picture.getMiddle());
-                }
+            viewHolder.photo.setOnClickListener(view -> {
+                PictureViewFragment.show(mFragmentManager, pictures, position);
             });
             return convertView;
         }

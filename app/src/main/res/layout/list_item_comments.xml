@@ -32,14 +32,18 @@
         android:textColor="#404040"
         android:textSize="14sp"/>
 
-    <GridView
+    <csumissu.fakewechat.widget.NestedScrollGridView
         android:id="@+id/status_pictures"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/status_content"
         android:layout_below="@id/status_content"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="4dp"
-        android:numColumns="3"/>
+        android:columnWidth="90dp"
+        android:horizontalSpacing="4dp"
+        android:numColumns="3"
+        android:stretchMode="none"
+        android:verticalSpacing="4dp"/>
 
 </RelativeLayout>

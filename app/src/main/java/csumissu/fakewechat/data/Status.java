@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class Status {
         this.picUrls = picUrls;
     }
 
-    public class Picture {
+    public class Picture implements Serializable {
         @SerializedName("thumbnail_pic")
         private String thumbnail;
 
