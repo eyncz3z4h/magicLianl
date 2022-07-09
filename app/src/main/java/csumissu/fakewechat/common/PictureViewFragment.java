@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +22,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.Status;
+import csumissu.fakewechat.widget.SimpleGlideListener;
 import me.relex.circleindicator.CircleIndicator;
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * @author sunyaxi
@@ -81,7 +85,7 @@ public class PictureViewFragment extends DialogFragment {
     class PicturePagerAdapter extends PagerAdapter {
 
         @BindView(R.id.middle_picture)
-        ImageView middlePicture;
+        PhotoView middlePicture;
         @BindView(R.id.thumbnail_picture)
         ImageView thumbnailPicture;
         @BindView(R.id.loading_container)
@@ -109,7 +113,20 @@ public class PictureViewFragment extends DialogFragment {
             View rootView = iLayoutInflater.inflate(R.layout.pager_picture_view, container, false);
             ButterKnife.bind(this, rootView);
             Status.Picture picture = iPictures.get(position);
-            Glide.with(getContext()).load(picture.getMiddle()).crossFade().into(middlePicture);
+            final PhotoViewAttacher attacher = new PhotoViewAttacher(middlePicture);
+            Glide.with(getContext()).load(picture.getMiddle())
+                    .listener(new SimpleGlideListener<String, GlideDrawable>() {
+                        @Override
+                        public void onSuccess() {
+                            attacher.update();
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    })
+                    .crossFade().into(middlePicture);
             container.addView(rootView);
             return rootView;
         }
