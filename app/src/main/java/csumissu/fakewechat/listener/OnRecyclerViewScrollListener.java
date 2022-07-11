@@ -1,4 +1,4 @@
-package csumissu.fakewechat.widget;
+package csumissu.fakewechat.listener;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;

@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.Status;
-import csumissu.fakewechat.widget.SimpleGlideListener;
+import csumissu.fakewechat.listener.SimpleGlideListener;
 import me.relex.circleindicator.CircleIndicator;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -84,12 +84,6 @@ public class PictureViewFragment extends DialogFragment {
 
     class PicturePagerAdapter extends PagerAdapter {
 
-        @BindView(R.id.middle_picture)
-        PhotoView middlePicture;
-        @BindView(R.id.thumbnail_picture)
-        ImageView thumbnailPicture;
-        @BindView(R.id.loading_container)
-        FrameLayout loadingContainer;
         private List<Status.Picture> iPictures;
         private LayoutInflater iLayoutInflater;
 
@@ -111,21 +105,28 @@ public class PictureViewFragment extends DialogFragment {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View rootView = iLayoutInflater.inflate(R.layout.pager_picture_view, container, false);
-            ButterKnife.bind(this, rootView);
+            PhotoView middlePicture = (PhotoView) rootView.findViewById(R.id.middle_picture);
+            ImageView thumbnailPicture = (ImageView) rootView.findViewById(R.id.thumbnail_picture);
+            View loadingContainer = rootView.findViewById(R.id.loading_container);
             Status.Picture picture = iPictures.get(position);
             final PhotoViewAttacher attacher = new PhotoViewAttacher(middlePicture);
+            Glide.with(getContext()).load(picture.getThumbnail()).dontAnimate().into(thumbnailPicture);
             Glide.with(getContext()).load(picture.getMiddle())
                     .listener(new SimpleGlideListener<String, GlideDrawable>() {
                         @Override
                         public void onSuccess() {
+                            System.out.println("onSuccess()");
                             attacher.update();
+                            loadingContainer.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onError() {
-
+                            System.out.println("onError()");
+                            loadingContainer.setVisibility(View.GONE);
                         }
                     })
+                    .error(R.drawable.ic_photo_load_failed)
                     .crossFade().into(middlePicture);
             container.addView(rootView);
             return rootView;

@@ -1,4 +1,4 @@
-package csumissu.fakewechat.widget;
+package csumissu.fakewechat.listener;
 
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -11,14 +11,14 @@ public abstract class SimpleGlideListener<T, R> implements RequestListener<T, R>
 
     @Override
     public boolean onException(Exception e, T model, Target<R> target, boolean isFirstResource) {
-        onSuccess();
+        onError();
         return false;
     }
 
     @Override
     public boolean onResourceReady(R resource, T model, Target<R> target,
                                    boolean isFromMemoryCache, boolean isFirstResource) {
-        onError();
+        onSuccess();
         return false;
     }
 

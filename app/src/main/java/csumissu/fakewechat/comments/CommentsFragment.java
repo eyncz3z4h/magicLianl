@@ -23,7 +23,7 @@ import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.data.User;
 import csumissu.fakewechat.widget.HorizontalDividerItemDecoration;
-import csumissu.fakewechat.widget.OnRecyclerViewScrollListener;
+import csumissu.fakewechat.listener.OnRecyclerViewScrollListener;
 
 import static csumissu.fakewechat.util.Preconditions.checkNotNull;
 
