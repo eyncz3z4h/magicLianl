@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.common.PictureViewFragment;
 import csumissu.fakewechat.data.Status;
+import csumissu.fakewechat.util.FontUtils;
 
 import static csumissu.fakewechat.util.Preconditions.checkNotNull;
 
@@ -62,6 +63,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 .placeholder(R.drawable.ic_photo_placeholder)
                 .into(holder.senderPhoto);
         holder.senderName.setText(status.getSender().getName());
+        markAsIconForGender(holder.senderGender, status.getSender().getGender());
         holder.statusContent.setText(status.getText());
         holder.statusPictures.setAdapter(new GridAdapter(status.getPicUrls()));
     }
@@ -71,12 +73,32 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         return mStatuses.size();
     }
 
+    private void markAsIconForGender(TextView textView, String gender) {
+        String icon;
+        int colorResId;
+        if ("m".equals(gender)) {
+            icon = mContext.getString(R.string.fa_mars);
+            colorResId = R.color.cornflowerBlue;
+        } else if ("f".equals(gender)) {
+            icon = mContext.getString(R.string.fa_venus);
+            colorResId = R.color.pink;
+        } else {
+            icon = mContext.getString(R.string.fa_genderless);
+            colorResId = R.color.gainsboro;
+        }
+        textView.setText(icon);
+        textView.setTextColor(mContext.getResources().getColor(colorResId));
+        FontUtils.markAsIcon(mContext, textView);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.sender_photo)
         ImageView senderPhoto;
         @BindView(R.id.sender_name)
         TextView senderName;
+        @BindView(R.id.sender_gender)
+        TextView senderGender;
         @BindView(R.id.status_content)
         TextView statusContent;
         @BindView(R.id.status_pictures)

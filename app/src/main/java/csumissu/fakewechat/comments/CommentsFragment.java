@@ -85,7 +85,7 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext())
-                .colorResId(R.color.WhiteSmoke).sizeResId(R.dimen.divider).build());
+                .colorResId(R.color.whiteSmoke).sizeResId(R.dimen.divider).build());
         mRecyclerView.addOnScrollListener(new OnRecyclerViewScrollListener() {
             @Override
             public void onTop() {
