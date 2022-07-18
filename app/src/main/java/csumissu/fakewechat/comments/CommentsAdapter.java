@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,11 +42,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     private List<Status> mStatuses = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
     private FragmentManager mFragmentManager;
+    private SimpleDateFormat mSimpleDateFormat;
 
     public CommentsAdapter(Context context, FragmentManager fragmentManager) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mFragmentManager = fragmentManager;
+        mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
+        mSimpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
     }
 
     public void setData(@NonNull List<Status> statuses) {
@@ -66,11 +75,24 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         markAsIconForGender(holder.senderGender, status.getSender().getGender());
         holder.statusContent.setText(status.getText());
         holder.statusPictures.setAdapter(new GridAdapter(status.getPicUrls()));
+        holder.statusDate.setText(mSimpleDateFormat.format(status.getCreateAt()));
+        holder.statusSource.setText(getPlainText(status.getSource()));
     }
 
     @Override
     public int getItemCount() {
         return mStatuses.size();
+    }
+
+    private String getPlainText(String html) {
+        if (TextUtils.isEmpty(html)) {
+            return html;
+        }
+        Matcher matcher = Pattern.compile("<a[^>]*>([^<]*)</a>").matcher(html);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return html;
     }
 
     private void markAsIconForGender(TextView textView, String gender) {
@@ -103,6 +125,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         TextView statusContent;
         @BindView(R.id.status_pictures)
         GridView statusPictures;
+        @BindView(R.id.status_date)
+        TextView statusDate;
+        @BindView(R.id.status_source)
+        TextView statusSource;
 
         public ViewHolder(View itemView) {
             super(itemView);

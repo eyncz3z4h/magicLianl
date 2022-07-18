@@ -17,7 +17,7 @@
         android:id="@+id/sender_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="4dp"
         android:layout_toRightOf="@id/sender_photo"
         android:singleLine="true"
         android:textColor="#5C6C88"
@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/sender_name"
         android:layout_below="@id/sender_name"
+        android:layout_marginBottom="4dp"
         android:textColor="#404040"
         android:textSize="14sp"/>
 
@@ -47,12 +48,33 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/status_content"
         android:layout_below="@id/status_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:columnWidth="90dp"
         android:horizontalSpacing="4dp"
         android:numColumns="3"
         android:stretchMode="none"
         android:verticalSpacing="4dp"/>
+
+    <TextView
+        android:id="@+id/status_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/status_content"
+        android:layout_below="@id/status_pictures"
+        android:singleLine="true"
+        android:textColor="@color/silver"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/status_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/status_date"
+        android:layout_below="@id/status_pictures"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@id/status_date"
+        android:singleLine="true"
+        android:textColor="@color/silver"
+        android:textSize="12sp"/>
 
 </RelativeLayout>
