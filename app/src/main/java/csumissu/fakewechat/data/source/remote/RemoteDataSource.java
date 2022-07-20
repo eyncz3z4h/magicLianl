@@ -28,7 +28,7 @@ public class RemoteDataSource implements EntityDataSource {
 
     private RemoteDataSource() {
         Gson gson = new GsonBuilder()
-                .setDateFormat("EEE MMM dd hh:mm:ss zzz yyyy")
+                .setDateFormat("EEE MMM dd HH:mm:ss zzz yyyy")
                 .serializeNulls()
                 .create();
         Retrofit retrofit = new Retrofit.Builder()
