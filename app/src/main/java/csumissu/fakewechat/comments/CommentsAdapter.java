@@ -1,6 +1,7 @@
 package csumissu.fakewechat.comments;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -28,6 +30,7 @@ import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.common.PictureViewFragment;
 import csumissu.fakewechat.data.Status;
+import csumissu.fakewechat.util.DisplayUtils;
 import csumissu.fakewechat.util.FontUtils;
 
 import static csumissu.fakewechat.util.Preconditions.checkNotNull;
@@ -43,6 +46,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     private LayoutInflater mLayoutInflater;
     private FragmentManager mFragmentManager;
     private SimpleDateFormat mSimpleDateFormat;
+    private int mGridColumnSize;
 
     public CommentsAdapter(Context context, FragmentManager fragmentManager) {
         mContext = context;
@@ -50,6 +54,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         mFragmentManager = fragmentManager;
         mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
         mSimpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        Point point = new Point();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getSize(point);
+        mGridColumnSize = (Math.min(point.x, point.y) - DisplayUtils.dip2px(context,
+                8 * 2/*item_padding*/ + 36/*photo_width*/ + 8/*photo_margin-right*/
+                        + 12/*GridView_margin-right*/)) / 3;
     }
 
     public void setData(@NonNull List<Status> statuses) {
@@ -75,6 +85,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         markAsIconForGender(holder.senderGender, status.getSender().getGender());
         holder.statusContent.setText(status.getText());
         holder.statusPictures.setAdapter(new GridAdapter(status.getPicUrls()));
+        adjustGridView(holder.statusPictures, status.getPicUrls().size());
         holder.statusDate.setText(mSimpleDateFormat.format(status.getCreateAt()));
         holder.statusSource.setText(getPlainText(status.getSource()));
     }
@@ -82,6 +93,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     @Override
     public int getItemCount() {
         return mStatuses.size();
+    }
+
+
+    private void adjustGridView(GridView gridView, int pictureCount) {
+        gridView.setColumnWidth(mGridColumnSize);
+        gridView.setNumColumns(pictureCount <= 4 ? 2 : 3);
     }
 
     private String getPlainText(String html) {
@@ -169,14 +186,20 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 viewHolder = new GridViewHolder(convertView);
                 convertView.setTag(R.id.glide_tag, viewHolder);
             }
+            adjustImageSize(viewHolder.photo);
             Status.Picture picture = (Status.Picture) getItem(position);
             Glide.with(mContext).load(picture.getThumbnail())
                     .placeholder(R.drawable.ic_photo_placeholder)
                     .into(viewHolder.photo);
             viewHolder.photo.setOnClickListener(view -> {
-                PictureViewFragment.show(mFragmentManager, pictures, position);
+                PictureViewFragment.show(mFragmentManager, pictures, position, mGridColumnSize);
             });
             return convertView;
+        }
+
+        private void adjustImageSize(ImageView view) {
+            view.getLayoutParams().width = mGridColumnSize;
+            view.getLayoutParams().height = mGridColumnSize;
         }
 
         class GridViewHolder {
