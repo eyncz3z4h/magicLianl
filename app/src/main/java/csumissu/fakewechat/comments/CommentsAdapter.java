@@ -95,7 +95,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         return mStatuses.size();
     }
 
-
     private void adjustGridView(GridView gridView, int pictureCount) {
         gridView.setColumnWidth(mGridColumnSize);
         gridView.setNumColumns(pictureCount <= 4 ? 2 : 3);
