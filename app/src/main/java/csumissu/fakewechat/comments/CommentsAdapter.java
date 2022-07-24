@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import csumissu.fakewechat.common.PictureViewFragment;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.util.DisplayUtils;
 import csumissu.fakewechat.util.FontUtils;
+import csumissu.fakewechat.util.WeiboUtils;
 
 import static csumissu.fakewechat.util.Preconditions.checkNotNull;
 
@@ -83,7 +85,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 .into(holder.senderPhoto);
         holder.senderName.setText(status.getSender().getName());
         markAsIconForGender(holder.senderGender, status.getSender().getGender());
-        holder.statusContent.setText(status.getText());
+        holder.statusContent.setMovementMethod(LinkMovementMethod.getInstance());
+        holder.statusContent.setText(WeiboUtils.transformContent(mContext,
+                status.getText(), holder.statusContent.getTextSize()));
         holder.statusPictures.setAdapter(new GridAdapter(status.getPicUrls()));
         adjustGridView(holder.statusPictures, status.getPicUrls().size());
         holder.statusDate.setText(mSimpleDateFormat.format(status.getCreateAt()));
