@@ -33,7 +33,7 @@ public class WeiboUtils {
 
     private static final String TAG = WeiboUtils.class.getSimpleName();
     private static final String AT = "@[-\u4e00-\u9fa5\\w]+";
-    private static final String TOPIC = "#[\u4e00-\u9fa5\\w]+#";
+    private static final String TOPIC = "#.*?#";
     private static final String EMOJI = "\\[[\u4e00-\u9fa5\\w]+\\]";
     private static final String URL = "http://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
     private static final String REGEX = "(" + AT + ")|(" + TOPIC + ")|(" + EMOJI + ")|(" + URL + ")";
