@@ -3,4 +3,5 @@
     <string name="app_name">FakeWeChat</string>
     <string name="send_status">发布微博</string>
     <string name="no_more_statuses">没有更多微博了</string>
+    <string name="web_link">网页链接</string>
 </resources>

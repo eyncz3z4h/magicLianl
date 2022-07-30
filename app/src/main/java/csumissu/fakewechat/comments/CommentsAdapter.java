@@ -87,7 +87,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         markAsIconForGender(holder.senderGender, status.getSender().getGender());
         holder.statusContent.setMovementMethod(LinkMovementMethod.getInstance());
         holder.statusContent.setText(WeiboUtils.transformContent(mContext,
-                status.getText(), holder.statusContent.getTextSize()));
+                status.getText(), (int) holder.statusContent.getTextSize()));
         holder.statusPictures.setAdapter(new GridAdapter(status.getPicUrls()));
         adjustGridView(holder.statusPictures, status.getPicUrls().size());
         holder.statusDate.setText(mSimpleDateFormat.format(status.getCreateAt()));

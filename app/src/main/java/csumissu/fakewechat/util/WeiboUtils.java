@@ -1,9 +1,12 @@
 package csumissu.fakewechat.util;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -42,7 +45,7 @@ public class WeiboUtils {
     private static final int GROUP_EMOJI = 3;
     private static final int GROUP_URL = 4;
 
-    public static SpannableString transformContent(Context context, String content, float textSize) {
+    public static SpannableString transformContent(Context context, String content, int textSize) {
         SpannableString spannableString = new SpannableString(content);
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(spannableString);
@@ -74,12 +77,15 @@ public class WeiboUtils {
                 }
                 int startIndex = matcher.start(GROUP_EMOJI);
                 int endIndex = startIndex + emoji.length();
-                spannableString.setSpan(new MyImageSpan(context, resId, (int) textSize),
+                spannableString.setSpan(new MyImageSpan(context, resId, textSize),
                         startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             if (!TextUtils.isEmpty(url)) {
                 int startIndex = matcher.start(GROUP_URL);
                 int endIndex = startIndex + url.length();
+                spannableString.setSpan(new MyImageSpan(context, R.drawable.ic_web_link,
+                        textSize, R.string.web_link, linkColor),
+                        startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spannableString.setSpan(new MyURLSpan(url, linkColor), startIndex, endIndex,
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -128,11 +134,22 @@ public class WeiboUtils {
 
     private static class MyImageSpan extends ImageSpan {
 
+        private Context iContext;
         private int iDrawableSize;
+        private int iStrResId;
+        private int iLinkColor;
 
         public MyImageSpan(Context context, @DrawableRes int resourceId, int drawableSize) {
+            this(context, resourceId, drawableSize, 0, 0);
+        }
+
+        public MyImageSpan(Context context, @DrawableRes int resourceId, int drawableSize,
+                           @StringRes int strId, @ColorInt int linkColor) {
             super(context, resourceId, ALIGN_BASELINE);
+            iContext = context;
             iDrawableSize = drawableSize;
+            iStrResId = strId;
+            iLinkColor = linkColor;
         }
 
         @Override
@@ -140,6 +157,31 @@ public class WeiboUtils {
             Drawable drawable = super.getDrawable();
             drawable.setBounds(0, 0, iDrawableSize, iDrawableSize);
             return drawable;
+        }
+
+        @Override
+        public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
+            int totalSize = super.getSize(paint, text, start, end, fm);
+            if (iStrResId > 0) {
+                totalSize += paint.measureText(iContext.getString(iStrResId));
+                totalSize += paint.measureText(" ") * 2;
+            }
+            return totalSize;
+        }
+
+        @Override
+        public void draw(Canvas canvas, CharSequence text, int start, int end,
+                         float x, int top, int y, int bottom, Paint paint) {
+            super.draw(canvas, text, start, end, x, top, y, bottom, paint);
+            if (iStrResId > 0) {
+                canvas.save();
+                paint.setColor(iLinkColor);
+                Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
+                int baseline = (top + bottom - fontMetrics.top - fontMetrics.bottom) / 2;
+                canvas.drawText(" " + iContext.getString(iStrResId) + " ",
+                        x + iDrawableSize, baseline, paint);
+                canvas.restore();
+            }
         }
     }
 
