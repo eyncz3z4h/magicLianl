@@ -24,8 +24,21 @@ public class ActivityUtils {
         checkNotNull(fragmentManager);
         checkNotNull(fragment);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(frameId, fragment);
-        transaction.commit();
+        if (fragment.isAdded()) {
+            transaction.replace(frameId, fragment);
+        } else {
+            transaction.add(frameId, fragment);
+        }
+        transaction.commitAllowingStateLoss();
+    }
+
+    public static void removeFragmentFromActivity(@NonNull FragmentManager fragmentManager,
+                                                  @NonNull Fragment fragment) {
+        checkNotNull(fragmentManager);
+        checkNotNull(fragment);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.remove(fragment);
+        transaction.commitAllowingStateLoss();
     }
 
 }

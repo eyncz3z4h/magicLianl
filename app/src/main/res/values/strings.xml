@@ -4,4 +4,8 @@
     <string name="send_status">发布微博</string>
     <string name="no_more_statuses">没有更多微博了</string>
     <string name="web_link">网页链接</string>
+    <string name="tab_chat">微信</string>
+    <string name="tab_contacts">通讯录</string>
+    <string name="tab_explore">发现</string>
+    <string name="tab_me">我</string>
 </resources>
