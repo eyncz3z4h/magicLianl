@@ -1,5 +1,6 @@
 package csumissu.fakewechat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +29,11 @@ public class StartActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Activity activity = AppManager.getInstance().getActivity(MainActivity.class);
+        if (activity != null && !activity.isFinishing()) {
+            finish();
+        }
+
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
         mProgressWheel.setOnClickListener(view -> {

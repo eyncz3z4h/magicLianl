@@ -29,9 +29,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        AppManager.getInstance().addActivity(this);
+
         int selectedPosition = savedInstanceState != null ? savedInstanceState.getInt(
                 KEY_SELECTED_POSITION, 0) : 0;
         initViews(selectedPosition);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getInstance().finishActivity(this);
     }
 
     private void initViews(int selectedPosition) {
