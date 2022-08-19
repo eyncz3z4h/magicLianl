@@ -8,4 +8,7 @@
     <string name="tab_contacts">通讯录</string>
     <string name="tab_explore">发现</string>
     <string name="tab_me">我</string>
+    <string name="tip_double_click_exit">再次点击退出</string>
+    <string name="search">搜索</string>
+    <string name="add_more">添加</string>
 </resources>

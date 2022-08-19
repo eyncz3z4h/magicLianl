@@ -11,6 +11,7 @@ import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import csumissu.fakewechat.main.MainActivity;
 import csumissu.fakewechat.widget.ProgressWheel;
 
 /**
@@ -74,7 +75,6 @@ public class StartActivity extends AppCompatActivity {
                     iProgress = 0;
                     break;
                 case MSG_LOOP:
-                    System.out.println(iProgress);
                     if (iProgress > 360) {
                         sendEmptyMessage(MSG_MAIN);
                     } else {
