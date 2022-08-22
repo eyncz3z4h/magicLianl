@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.util.List;
@@ -28,6 +29,7 @@ public class LocalDataSource implements EntityDataSource {
     private Gson mGson;
     private FileManager mFileManager;
     private static final String KEY_OWNER = "owner";
+    private static final String KEY_FRIENDS = "friends";
     private File mResultFile;
 
     private LocalDataSource(Context context) {
@@ -60,6 +62,21 @@ public class LocalDataSource implements EntityDataSource {
     @Override
     public void saveOwner(User user) {
         mFileManager.writeToPreferences(mContext, KEY_OWNER, mGson.toJson(user));
+    }
+
+    @Override
+    public Observable<List<User>> getFriends() {
+        String friends = mFileManager.getFromPreferences(mContext, KEY_FRIENDS);
+        if (TextUtils.isEmpty(friends)) {
+            return Observable.empty();
+        } else {
+            return Observable.just(mGson.fromJson(friends, new TypeToken<List<User>>(){}.getType()));
+        }
+    }
+
+    @Override
+    public void saveFriends(List<User> users) {
+        mFileManager.writeToPreferences(mContext, KEY_FRIENDS, mGson.toJson(users));
     }
 
     @Override

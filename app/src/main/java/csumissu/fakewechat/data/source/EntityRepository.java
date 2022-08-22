@@ -57,6 +57,18 @@ public class EntityRepository implements EntityDataSource {
     }
 
     @Override
+    public Observable<List<User>> getFriends() {
+        Observable<List<User>> disk = mLocalDataSource.getFriends().doOnNext(this::saveFriends);
+        Observable<List<User>> network = mRemoteDataSource.getFriends().doOnNext(mLocalDataSource::saveFriends);
+        return Observable.concat(disk, network).first();
+    }
+
+    @Override
+    public void saveFriends(List<User> users) {
+        // Do nothing, as this data could be large.
+    }
+
+    @Override
     public Observable<StatusResult> getStatusResult() {
         return mRemoteDataSource.getStatusResult().doOnNext(mLocalDataSource::saveStatusResult);
     }

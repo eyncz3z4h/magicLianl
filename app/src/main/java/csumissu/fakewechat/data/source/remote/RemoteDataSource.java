@@ -57,6 +57,16 @@ public class RemoteDataSource implements EntityDataSource {
     }
 
     @Override
+    public Observable<List<User>> getFriends() {
+        return mWeiboApi.getFriends(WeiboApi.ACCESS_TOKEN, WeiboApi.OWNER_UID);
+    }
+
+    @Override
+    public void saveFriends(List<User> users) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Observable<StatusResult> getStatusResult() {
         return mWeiboApi.getPublicStatuses(WeiboApi.ACCESS_TOKEN, 200);
     }

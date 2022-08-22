@@ -2,7 +2,6 @@ package csumissu.fakewechat.main;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +20,7 @@ import csumissu.fakewechat.AppManager;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.util.DoubleClickExitHelper;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener,
-        ViewPager.OnPageChangeListener {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar mBottomNavBar;
@@ -49,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     protected void onDestroy() {
         super.onDestroy();
         AppManager.getInstance().finishActivity(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_SELECTED_POSITION, mViewPager.getCurrentItem());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -80,7 +84,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                         .setActiveColorResource(R.color.brown))
                 .setFirstSelectedPosition(selectedPosition)
                 .initialise();
-        mBottomNavBar.setTabSelectedListener(this);
+        mBottomNavBar.setTabSelectedListener(new BottomNavigationBar.SimpleOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                mViewPager.setCurrentItem(position, true);
+            }
+        });
 
         if (mFragment == null) {
             mFragment = new ArrayList<>();
@@ -90,22 +99,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             mFragment.add(new MeFragment());
         }
 
-        mViewPager.setAdapter(new TabViewPager(getSupportFragmentManager()));
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return mFragment.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return mFragment.size();
+            }
+        });
         mViewPager.setCurrentItem(selectedPosition);
         mViewPager.addOnPageChangeListener(this);
-    }
-
-    @Override
-    public void onTabSelected(int position) {
-        mViewPager.setCurrentItem(position, true);
-    }
-
-    @Override
-    public void onTabUnselected(int position) {
-    }
-
-    @Override
-    public void onTabReselected(int position) {
     }
 
     @Override
@@ -114,27 +120,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     @Override
     public void onPageSelected(int position) {
-        mBottomNavBar.selectTab(position);
+        mBottomNavBar.selectTab(position, false);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
     }
 
-    class TabViewPager extends FragmentPagerAdapter {
-
-        public TabViewPager(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragment.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragment.size();
-        }
-    }
 }

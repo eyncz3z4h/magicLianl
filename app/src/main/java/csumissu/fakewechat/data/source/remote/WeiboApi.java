@@ -1,5 +1,7 @@
 package csumissu.fakewechat.data.source.remote;
 
+import java.util.List;
+
 import csumissu.fakewechat.data.StatusResult;
 import csumissu.fakewechat.data.User;
 import retrofit2.http.GET;
@@ -18,6 +20,10 @@ public interface WeiboApi {
     @GET("2/users/show.json")
     Observable<User> getUser(@Query("access_token") String accessToken,
                              @Query("uid") long uid);
+
+    @GET("2/friendships/friends.json")
+    Observable<List<User>> getFriends(@Query("access_token") String accessToken,
+                                      @Query("uid") long uid);
 
     @GET("2/statuses/public_timeline.json")
     Observable<StatusResult> getPublicStatuses(@Query("access_token") String accessToken,
