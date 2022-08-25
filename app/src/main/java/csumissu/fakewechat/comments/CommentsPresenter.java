@@ -1,6 +1,7 @@
 package csumissu.fakewechat.comments;
 
 import android.support.annotation.NonNull;
+
 import csumissu.fakewechat.data.source.EntityRepository;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -24,18 +25,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
     @Override
     public void start() {
-        loadOwner();
         loadStatuses(0);
-    }
-
-    @Override
-    public void loadOwner() {
-        mRepository.getOwner()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mView::showOwner, throwable -> {
-                    mView.showError("loadOwner failed! " + throwable.getMessage());
-                });
     }
 
     @Override

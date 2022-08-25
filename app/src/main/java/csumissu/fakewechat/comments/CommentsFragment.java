@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.Status;
-import csumissu.fakewechat.data.User;
-import csumissu.fakewechat.widget.HorizontalDividerItemDecoration;
 import csumissu.fakewechat.listener.OnRecyclerViewScrollListener;
+import csumissu.fakewechat.widget.HorizontalDividerItemDecoration;
 
 import static csumissu.fakewechat.util.Preconditions.checkNotNull;
 
@@ -115,12 +113,6 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
     @Override
     public void setLoadingIndicator(boolean active) {
 
-    }
-
-    @Override
-    public void showOwner(User owner) {
-        Log.d(TAG, "showOwner() " + owner);
-        ((CommentsActivity) getActivity()).showOwnerInternal(owner);
     }
 
     @Override

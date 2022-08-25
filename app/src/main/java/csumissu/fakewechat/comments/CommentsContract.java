@@ -5,7 +5,6 @@ import java.util.List;
 import csumissu.fakewechat.base.BasePresenter;
 import csumissu.fakewechat.base.BaseView;
 import csumissu.fakewechat.data.Status;
-import csumissu.fakewechat.data.User;
 
 /**
  * @author sunyaxi
@@ -14,8 +13,6 @@ import csumissu.fakewechat.data.User;
 public interface CommentsContract {
 
     interface Presenter extends BasePresenter {
-
-        void loadOwner();
 
         void loadAllStatuses();
 
@@ -28,8 +25,6 @@ public interface CommentsContract {
         void setRefreshIndicator(boolean active);
 
         void setLoadingIndicator(boolean active);
-
-        void showOwner(User owner);
 
         void showStatuses(List<Status> statuses);
 

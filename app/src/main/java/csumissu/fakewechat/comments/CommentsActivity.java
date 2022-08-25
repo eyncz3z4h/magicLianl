@@ -6,7 +6,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import csumissu.fakewechat.AppContext;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.User;
 import csumissu.fakewechat.data.source.EntityRepository;
@@ -51,6 +51,7 @@ public class CommentsActivity extends AppCompatActivity implements AppBarLayout.
         // actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
         Glide.with(this).load(R.drawable.photo).centerCrop().into(mAppBarImage);
+        showOwnerInternal(AppContext.getInstance().getLoginUser());
 
         CommentsFragment fragment = (CommentsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.content_frame);
@@ -106,10 +107,10 @@ public class CommentsActivity extends AppCompatActivity implements AppBarLayout.
     }
 
     void showOwnerInternal(User owner) {
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setTitle(owner.getName());
-        Glide.with(this).load(owner.getAvatar()).into(mOwnerPhoto);
+        if (owner != null) {
+            getSupportActionBar().setTitle(owner.getName());
+            Glide.with(this).load(owner.getAvatar()).into(mOwnerPhoto);
+        }
     }
 
 }
