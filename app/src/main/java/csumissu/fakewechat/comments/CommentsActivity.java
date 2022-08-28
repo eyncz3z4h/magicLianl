@@ -3,6 +3,7 @@ package csumissu.fakewechat.comments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -53,18 +54,18 @@ public class CommentsActivity extends AppCompatActivity implements AppBarLayout.
         Glide.with(this).load(R.drawable.photo).centerCrop().into(mAppBarImage);
         showOwnerInternal(AppContext.getInstance().getLoginUser());
 
-        CommentsFragment fragment = (CommentsFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.content_frame);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
         if (fragment == null) {
             fragment = new CommentsFragment();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     fragment, R.id.content_frame);
         }
 
-        CommentsPresenter presenter = new CommentsPresenter(fragment,
+        CommentsContract.View view = (CommentsContract.View) fragment;
+        CommentsPresenter presenter = new CommentsPresenter(view,
                 EntityRepository.getInstance(LocalDataSource.getInstance(this),
                         RemoteDataSource.getInstance()));
-        fragment.setPresenter(presenter);
+        view.setPresenter(presenter);
     }
 
     @Override
