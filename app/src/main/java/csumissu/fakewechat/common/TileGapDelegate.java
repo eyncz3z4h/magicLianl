@@ -19,7 +19,6 @@ import csumissu.fakewechat.R;
  */
 public class TileGapDelegate implements IAdapterDelegate {
 
-    public static final int TYPE_GAP = 1;
     private Context mContext;
     private LayoutInflater mInflater;
 
@@ -30,7 +29,7 @@ public class TileGapDelegate implements IAdapterDelegate {
 
     @Override
     public int getViewType() {
-        return TYPE_GAP;
+        return TileAdapter.TYPE_GAP;
     }
 
     @Override

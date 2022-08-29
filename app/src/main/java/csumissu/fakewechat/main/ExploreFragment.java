@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,6 @@ import csumissu.fakewechat.comments.CommentsActivity;
 import csumissu.fakewechat.common.TileAdapter;
 import csumissu.fakewechat.common.TileGapDelegate;
 import csumissu.fakewechat.common.TileMenuDelegate;
-import csumissu.fakewechat.widget.HorizontalDividerItemDecoration;
 
 /**
  * @author sunyaxi

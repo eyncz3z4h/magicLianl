@@ -13,15 +13,20 @@ import java.util.List;
  */
 public class TileAdapter extends RecyclerView.Adapter {
 
+    public static final int TYPE_GAP = 1;
+    public static final int TYPE_MENU = 2;
+    public static final int TYPE_INFO = 3;
     private Context mContext;
     private TileGapDelegate mGapDelegate;
     private TileMenuDelegate mMenuDelegate;
+    private TileInfoDelegate mInfoDelegate;
     private List mItems = new ArrayList<>();
 
     public TileAdapter(Context context) {
         mContext = context;
         mGapDelegate = new TileGapDelegate(context);
         mMenuDelegate = new TileMenuDelegate(context);
+        mInfoDelegate = new TileInfoDelegate(context);
     }
 
     public void setData(List items) {
@@ -32,9 +37,11 @@ public class TileAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if (mGapDelegate.isForViewType(mItems, position)) {
-            return TileGapDelegate.TYPE_GAP;
+            return TYPE_GAP;
         } else if (mMenuDelegate.isForViewType(mItems, position)) {
-            return TileMenuDelegate.TYPE_MENU;
+            return TYPE_MENU;
+        } else if (mInfoDelegate.isForViewType(mItems, position)) {
+            return TYPE_INFO;
         }
         throw new IllegalArgumentException("No delegate found for position " + position);
     }
@@ -42,10 +49,12 @@ public class TileAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
-            case TileGapDelegate.TYPE_GAP:
+            case TYPE_GAP:
                 return mGapDelegate.onCreateViewHolder(parent);
-            case TileMenuDelegate.TYPE_MENU:
+            case TYPE_MENU:
                 return mMenuDelegate.onCreateViewHolder(parent);
+            case TYPE_INFO:
+                return mInfoDelegate.onCreateViewHolder(parent);
             default:
                 throw new IllegalArgumentException("No delegate found for position " + viewType);
         }
@@ -54,11 +63,14 @@ public class TileAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
-            case TileGapDelegate.TYPE_GAP:
+            case TYPE_GAP:
                 mGapDelegate.onBindViewHolder(mItems, position, holder);
                 break;
-            case TileMenuDelegate.TYPE_MENU:
+            case TYPE_MENU:
                 mMenuDelegate.onBindViewHolder(mItems, position, holder);
+                break;
+            case TYPE_INFO:
+                mInfoDelegate.onBindViewHolder(mItems, position, holder);
                 break;
         }
     }

@@ -21,7 +21,6 @@ import csumissu.fakewechat.R;
  */
 public class TileMenuDelegate implements IAdapterDelegate {
 
-    public static final int TYPE_MENU = 2;
     private Context mContext;
     private LayoutInflater mInflater;
 
@@ -32,7 +31,7 @@ public class TileMenuDelegate implements IAdapterDelegate {
 
     @Override
     public int getViewType() {
-        return TYPE_MENU;
+        return TileAdapter.TYPE_MENU;
     }
 
     @Override

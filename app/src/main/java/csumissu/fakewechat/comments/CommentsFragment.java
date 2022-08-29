@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,7 +23,6 @@ import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.listener.OnRecyclerViewScrollListener;
-import csumissu.fakewechat.widget.HorizontalDividerItemDecoration;
 
 import static csumissu.fakewechat.util.Preconditions.checkNotNull;
 
@@ -83,7 +84,9 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext())
-                .colorResId(R.color.whiteSmoke).sizeResId(R.dimen.divider).build());
+                .colorResId(R.color.whiteSmoke)
+                .sizeResId(R.dimen.divider)
+                .build());
         mRecyclerView.addOnScrollListener(new OnRecyclerViewScrollListener() {
             @Override
             public void onTop() {
