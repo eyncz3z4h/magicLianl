@@ -60,7 +60,13 @@ public class ExploreFragment extends Fragment {
         items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_comments, R.string.comments,
                 new Intent(getActivity(), CommentsActivity.class)));
         items.add(new TileGapDelegate.TileGap());
-        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_scan_qr_code, R.string.scan_qr_code));
+        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_scan, R.string.scan_qr_code));
+        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_shake, R.string.shake));
+        items.add(new TileGapDelegate.TileGap());
+        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_nearby, R.string.nearby));
+        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_bottle, R.string.bottle));
+        items.add(new TileGapDelegate.TileGap());
+        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_game, R.string.game));
         adapter.setData(items);
     }
 

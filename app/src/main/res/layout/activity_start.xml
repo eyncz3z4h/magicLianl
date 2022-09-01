@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@drawable/welcome">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/welcome_bg">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/welcome_earth"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/welcome_people"/>
 
     <csumissu.fakewechat.widget.ProgressWheel
         android:id="@+id/pw_spinner"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_gravity="top|right"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:layout_margin="16dp"
-        app:pwBarColor="#0097D6"
+        app:pwBarColor="@android:color/white"
         app:pwBarLength="60dp"
         app:pwBarWidth="3dp"
         app:pwRimColor="#330097D6"
         app:pwRimWidth="2dp"
-        app:pwText="跳过"
-        app:pwTextColor="#222"
+        app:pwText="@string/skip"
+        app:pwTextColor="@android:color/white"
         app:pwTextSize="12sp"/>
 
-</FrameLayout>
+</RelativeLayout>

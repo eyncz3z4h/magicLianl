@@ -4,6 +4,7 @@
     <string name="send_status">发布微博</string>
     <string name="no_more_statuses">没有更多微博了</string>
     <string name="web_link">网页链接</string>
+    <string name="skip">跳过</string>
     <string name="tab_chat">微信</string>
     <string name="tab_contacts">通讯录</string>
     <string name="tab_explore">发现</string>
@@ -13,6 +14,10 @@
     <string name="add_more">添加</string>
     <string name="comments">朋友圈</string>
     <string name="scan_qr_code">扫一扫</string>
+    <string name="shake">摇一摇</string>
+    <string name="nearby">附件的人</string>
+    <string name="bottle">漂流瓶</string>
+    <string name="game">游戏</string>
     <string name="star">收藏</string>
     <string name="emotion">表情</string>
     <string name="album">相册</string>
