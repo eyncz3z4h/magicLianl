@@ -18,7 +18,7 @@ import csumissu.fakewechat.widget.ProgressWheel;
  * @author sunyaxi
  * @date 2016/6/27
  */
-public class StartActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     private static final int MSG_INIT = 0;
     private static final int MSG_LOOP = 1;
@@ -35,7 +35,7 @@ public class StartActivity extends AppCompatActivity {
             finish();
         }
 
-        setContentView(R.layout.activity_start);
+        setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
         mProgressWheel.setOnClickListener(view -> {
             mHandler.removeMessages(MSG_LOOP);
@@ -57,16 +57,16 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private static class MyHandler extends Handler {
-        private final WeakReference<StartActivity> iActivity;
+        private final WeakReference<WelcomeActivity> iActivity;
         private int iProgress = 0;
 
-        public MyHandler(StartActivity activity) {
+        public MyHandler(WelcomeActivity activity) {
             iActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            StartActivity activity = iActivity.get();
+            WelcomeActivity activity = iActivity.get();
             if (activity == null) {
                 return;
             }
