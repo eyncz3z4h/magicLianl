@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">FakeWeChat</string>
+    <string name="app_name">微信</string>
     <string name="send_status">发布微博</string>
     <string name="no_more_statuses">没有更多微博了</string>
     <string name="web_link">网页链接</string>
@@ -23,4 +23,7 @@
     <string name="album">相册</string>
     <string name="settings">设置</string>
     <string name="uid">微博号: <xliff:g id="uid">%1$d</xliff:g></string>
+    <string name="add_new_friend">添加朋友</string>
+    <string name="receive_payment">收付款</string>
+    <string name="help_and_feedback">帮助与反馈</string>
 </resources>
