@@ -8,4 +8,5 @@
     <dimen name="divider">2px</dimen>
 
     <dimen name="tile_divider_margin">8dp</dimen>
+    <dimen name="config_prefDialogWidth">320dp</dimen>
 </resources>
