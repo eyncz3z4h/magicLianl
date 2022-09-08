@@ -18,6 +18,9 @@ import butterknife.ButterKnife;
 import csumissu.fakewechat.AppConfig;
 import csumissu.fakewechat.AppManager;
 import csumissu.fakewechat.R;
+import csumissu.fakewechat.data.source.EntityRepository;
+import csumissu.fakewechat.data.source.local.LocalDataSource;
+import csumissu.fakewechat.data.source.remote.RemoteDataSource;
 import csumissu.fakewechat.util.DoubleClickExitHelper;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
@@ -94,7 +97,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (mFragment == null) {
             mFragment = new ArrayList<>();
             mFragment.add(new ChatFragment());
-            mFragment.add(new ContactsFragment());
+            ContactsFragment contactsFragment = new ContactsFragment();
+            ContactsPresenter contactsPresenter = new ContactsPresenter(contactsFragment,
+                    EntityRepository.getInstance(LocalDataSource.getInstance(this),
+                            RemoteDataSource.getInstance()));
+            contactsFragment.setPresenter(contactsPresenter);
+            mFragment.add(contactsFragment);
             mFragment.add(new ExploreFragment());
             mFragment.add(new MeFragment());
         }
