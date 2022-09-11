@@ -78,7 +78,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     if (iProgress > 360) {
                         sendEmptyMessage(MSG_MAIN);
                     } else {
-                        iProgress += 2;
+                        iProgress += 3;
                         activity.mProgressWheel.setProgress(iProgress);
                         sendEmptyMessageDelayed(MSG_LOOP, 10);
                     }

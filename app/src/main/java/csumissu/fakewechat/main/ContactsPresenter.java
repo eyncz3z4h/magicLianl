@@ -32,8 +32,6 @@ public class ContactsPresenter implements ContactsContract.Presenter {
                 .doOnTerminate(() -> mView.showLoading(false))
                 .subscribe(users -> {
                     mView.showFriends(users);
-                }, throwable -> {
-                    System.out.println(throwable);
                 });
     }
 

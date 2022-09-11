@@ -55,7 +55,7 @@ public class ExploreFragment extends Fragment {
     }
 
     private void setDefaultData(TileAdapter adapter) {
-        List items = new ArrayList<>();
+        List<Object> items = new ArrayList<>();
         items.add(new TileGapDelegate.TileGap());
         items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_comments, R.string.comments,
                 new Intent(getActivity(), CommentsActivity.class)));

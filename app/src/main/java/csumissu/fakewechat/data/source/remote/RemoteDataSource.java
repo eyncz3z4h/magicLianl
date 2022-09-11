@@ -2,11 +2,15 @@ package csumissu.fakewechat.data.source.remote;
 
 import android.util.Log;
 
+import com.github.stuxuhai.jpinyin.PinyinFormat;
+import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.Collections;
 import java.util.List;
 
+import csumissu.fakewechat.data.FriendshipResult;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.data.StatusResult;
 import csumissu.fakewechat.data.User;
@@ -58,7 +62,20 @@ public class RemoteDataSource implements EntityDataSource {
 
     @Override
     public Observable<List<User>> getFriends() {
-        return mWeiboApi.getFriends(WeiboApi.ACCESS_TOKEN, WeiboApi.OWNER_UID);
+        return mWeiboApi.getFriends(WeiboApi.ACCESS_TOKEN, WeiboApi.OWNER_UID)
+                .map(FriendshipResult::getUsers)
+                .map(users -> {
+                    if (users != null) {
+                        for (User user : users) {
+                            String pinyin = PinyinHelper.convertToPinyinString(
+                                    user.getName().trim(), "", PinyinFormat.WITHOUT_TONE);
+                            System.out.println("name=" + user.getName() + ", pinyin=" + pinyin);
+                            user.setPinyin(pinyin);
+                        }
+                        Collections.sort(users, (u1, u2) -> u1.getPinyin().compareTo(u2.getPinyin()));
+                    }
+                    return users;
+                });
     }
 
     @Override
@@ -79,12 +96,12 @@ public class RemoteDataSource implements EntityDataSource {
     @Override
     public Observable<List<Status>> getStatuses(int count, int page) {
         return getStatusResult().map(statusResult -> {
-                    int size = statusResult.getStatuses().size();
-                    int startIndex = Math.max(0, Math.min(count * page, size - 1));
-                    int endIndex = Math.max(startIndex, Math.min(count * (page + 1), size));
-                    Log.d(TAG, "size=" + size + ", start=" + startIndex + ", end=" + endIndex);
-                    return statusResult.getStatuses().subList(startIndex, endIndex);
-                });
+            int size = statusResult.getStatuses().size();
+            int startIndex = Math.max(0, Math.min(count * page, size - 1));
+            int endIndex = Math.max(startIndex, Math.min(count * (page + 1), size));
+            Log.d(TAG, "size=" + size + ", start=" + startIndex + ", end=" + endIndex);
+            return statusResult.getStatuses().subList(startIndex, endIndex);
+        });
 
     }
 }

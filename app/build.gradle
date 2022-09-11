@@ -64,6 +64,7 @@ dependencies {
     compile 'me.relex:circleindicator:1.2.1@aar'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.2.2'
+    compile 'com.github.stuxuhai:jpinyin:1.1.5'
     // Dependencies for local unit tests
     testCompile "junit:junit:$rootProject.ext.junitVersion"
     testCompile "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"

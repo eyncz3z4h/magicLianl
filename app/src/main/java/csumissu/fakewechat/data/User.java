@@ -22,6 +22,7 @@ public class User implements Serializable {
     private String gender;
     @SerializedName("avatar_large")
     private String avatar;
+    private String pinyin;
 
     public long getUid() {
         return uid;
@@ -71,6 +72,14 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
+    public String getPinyin() {
+        return pinyin;
+    }
+
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -80,6 +89,7 @@ public class User implements Serializable {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", gender='" + gender + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", pinyin='" + pinyin + '\'' +
                 '}';
     }
 }
