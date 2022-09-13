@@ -2,6 +2,7 @@ package csumissu.fakewechat.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ public class FriendshipResult {
     private long previousCursor;
     @SerializedName("next_cursor")
     private long nextCursor;
+    private HashMap<Character, Integer> letterPositionMap = new HashMap<>();
 
     public List<User> getUsers() {
         return users;
@@ -51,6 +53,10 @@ public class FriendshipResult {
         this.nextCursor = nextCursor;
     }
 
+    public HashMap<Character, Integer> getLetterPositionMap() {
+        return letterPositionMap;
+    }
+
     @Override
     public String toString() {
         return "FriendshipResult{" +
@@ -58,6 +64,7 @@ public class FriendshipResult {
                 ", totalNumber=" + totalNumber +
                 ", previousCursor=" + previousCursor +
                 ", nextCursor=" + nextCursor +
+                ", letterPositionMap=" + letterPositionMap +
                 '}';
     }
 }

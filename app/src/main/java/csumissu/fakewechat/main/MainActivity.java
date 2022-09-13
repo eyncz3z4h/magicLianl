@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private static final String KEY_SELECTED_POSITION = "key_selected_position";
     private ArrayList<Fragment> mFragment;
     private DoubleClickExitHelper mDoubleClickExitHelper;
+    public static final int TAB_INDEX_CONTACTS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mViewPager.removeOnPageChangeListener(this);
         AppManager.getInstance().finishActivity(this);
     }
 
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mBottomNavBar.setTabSelectedListener(new BottomNavigationBar.SimpleOnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
-                mViewPager.setCurrentItem(position, true);
+                mViewPager.setCurrentItem(position, false);
             }
         });
 
@@ -133,6 +135,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        ((ContactsFragment) mFragment.get(TAB_INDEX_CONTACTS))
+                .setLetterViewVisibility(state == ViewPager.SCROLL_STATE_IDLE);
     }
 
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -105,6 +106,10 @@ public class AppConfig {
         Properties props = new Properties();
         try {
             mLock.readLock().lock();
+            File file = new File(sContext.getFilesDir(), APP_CONFIG);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
             fis = sContext.openFileInput(APP_CONFIG);
             props.load(fis);
         } catch (IOException e) {

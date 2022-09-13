@@ -23,6 +23,7 @@
     <string name="album">相册</string>
     <string name="settings">设置</string>
     <string name="uid">微博号: <xliff:g id="uid">%1$d</xliff:g></string>
+    <string name="email">邮箱: <xliff:g id="email">%1$s</xliff:g></string>
     <string name="add_new_friend">添加朋友</string>
     <string name="receive_payment">收付款</string>
     <string name="help_and_feedback">帮助与反馈</string>

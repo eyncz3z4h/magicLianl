@@ -10,12 +10,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
+import csumissu.fakewechat.data.FriendshipResult;
 import csumissu.fakewechat.data.User;
 
 /**
@@ -26,16 +24,26 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<User> mUsers = new ArrayList<>();
+    private FriendshipResult mResult;
 
     public ContactsAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
     }
 
-    public void setData(List<User> users) {
-        mUsers.clear();
-        mUsers.addAll(users);
+    public void setData(FriendshipResult result) {
+        mResult = result;
+    }
+
+    public int letter2Position(char letter) {
+        int position = -1;
+        if (mResult != null) {
+            Integer pos = mResult.getLetterPositionMap().get(letter);
+            if (pos != null) {
+                position = pos;
+            }
+        }
+        return position;
     }
 
     @Override
@@ -45,8 +53,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        User user = mUsers.get(position);
-        holder.labelView.setText(user.getPinyin().substring(0, 1).toUpperCase());
+        User user = mResult.getUsers().get(position);
+        if (mResult.getLetterPositionMap().values().contains(position)) {
+            holder.labelView.setVisibility(View.VISIBLE);
+            holder.labelView.setText(user.getPinyin().substring(0, 1).toUpperCase());
+        } else {
+            holder.labelView.setVisibility(View.GONE);
+        }
         holder.nameView.setText(user.getName());
         Glide.with(mContext).load(user.getImageUrl())
                 .placeholder(R.drawable.ic_photo_placeholder)
@@ -55,7 +68,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mUsers.size();
+        return mResult != null ? mResult.getUsers().size() : 0;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

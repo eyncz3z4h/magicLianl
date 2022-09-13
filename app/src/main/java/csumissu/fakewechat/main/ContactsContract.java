@@ -1,10 +1,8 @@
 package csumissu.fakewechat.main;
 
-import java.util.List;
-
 import csumissu.fakewechat.base.BasePresenter;
 import csumissu.fakewechat.base.BaseView;
-import csumissu.fakewechat.data.User;
+import csumissu.fakewechat.data.FriendshipResult;
 
 /**
  * @author sunyaxi
@@ -22,7 +20,7 @@ public interface ContactsContract {
 
         void showLoading(boolean show);
 
-        void showFriends(List<User> friends);
+        void showFriends(FriendshipResult result);
     }
 
 }

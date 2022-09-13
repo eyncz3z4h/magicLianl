@@ -6,11 +6,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.util.List;
 
+import csumissu.fakewechat.data.FriendshipResult;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.data.StatusResult;
 import csumissu.fakewechat.data.User;
@@ -65,18 +65,18 @@ public class LocalDataSource implements EntityDataSource {
     }
 
     @Override
-    public Observable<List<User>> getFriends() {
+    public Observable<FriendshipResult> getFriends() {
         String friends = mFileManager.getFromPreferences(mContext, KEY_FRIENDS);
         if (TextUtils.isEmpty(friends)) {
             return Observable.empty();
         } else {
-            return Observable.just(mGson.fromJson(friends, new TypeToken<List<User>>(){}.getType()));
+            return Observable.just(mGson.fromJson(friends, FriendshipResult.class));
         }
     }
 
     @Override
-    public void saveFriends(List<User> users) {
-        mFileManager.writeToPreferences(mContext, KEY_FRIENDS, mGson.toJson(users));
+    public void saveFriends(FriendshipResult result) {
+        mFileManager.writeToPreferences(mContext, KEY_FRIENDS, mGson.toJson(result));
     }
 
     @Override
@@ -98,12 +98,12 @@ public class LocalDataSource implements EntityDataSource {
     @Override
     public Observable<List<Status>> getStatuses(int count, int page) {
         return getStatusResult().map(statusResult -> {
-                    int size = statusResult.getStatuses().size();
-                    int startIndex = Math.max(0, Math.min(count * page, size - 1));
-                    int endIndex = Math.max(startIndex, Math.min(count * (page + 1), size));
-                    Log.d(TAG, "size=" + size + ", start=" + startIndex + ", end=" + endIndex);
-                    return statusResult.getStatuses().subList(startIndex, endIndex);
-                });
+            int size = statusResult.getStatuses().size();
+            int startIndex = Math.max(0, Math.min(count * page, size - 1));
+            int endIndex = Math.max(startIndex, Math.min(count * (page + 1), size));
+            Log.d(TAG, "size=" + size + ", start=" + startIndex + ", end=" + endIndex);
+            return statusResult.getStatuses().subList(startIndex, endIndex);
+        });
     }
 
 }

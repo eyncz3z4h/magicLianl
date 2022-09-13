@@ -2,6 +2,7 @@ package csumissu.fakewechat.data.source;
 
 import java.util.List;
 
+import csumissu.fakewechat.data.FriendshipResult;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.data.StatusResult;
 import csumissu.fakewechat.data.User;
@@ -20,9 +21,9 @@ public interface EntityDataSource {
 
     void saveOwner(User user);
 
-    Observable<List<User>> getFriends();
+    Observable<FriendshipResult> getFriends();
 
-    void saveFriends(List<User> users);
+    void saveFriends(FriendshipResult result);
 
     Observable<StatusResult> getStatusResult();
 

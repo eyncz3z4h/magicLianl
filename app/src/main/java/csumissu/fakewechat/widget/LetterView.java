@@ -31,10 +31,26 @@ public class LetterView extends View {
     private Paint mPaint;
     private Toast mTipToast;
     private String[] mLetters;
-    private HashMap<String, Float> mLetterMap;
+    private HashMap<String, Float> mLettersMap;
     private static final float MARGIN_FACTOR = 0.2F;
     private static final int INVALID_POSITION = -1;
     private int mPrePosition = INVALID_POSITION;
+    private Callback mCallback;
+    private Runnable mShowTipToast = new Runnable() {
+        @Override
+        public void run() {
+            mTipToast.show();
+        }
+    };
+    private Runnable mHideTipToast = new Runnable() {
+        @Override
+        public void run() {
+            mTipToast.cancel();
+        }
+    };
+    public interface Callback {
+        void scrollToPosition(char letter);
+    }
 
     public LetterView(Context context) {
         this(context, null);
@@ -57,7 +73,7 @@ public class LetterView extends View {
         mPaint.setColor(Color.DKGRAY);
 
         mLetters = context.getResources().getStringArray(R.array.letters);
-        mLetterMap = new HashMap<>(mLetters.length);
+        mLettersMap = new HashMap<>(mLetters.length);
 
         mTipToast = new Toast(context.getApplicationContext());
         mTipToast.setGravity(Gravity.CENTER, 0, 0);
@@ -66,9 +82,18 @@ public class LetterView extends View {
         updateToastAnim(mTipToast);
     }
 
+    public void setCallback(Callback callback) {
+        mCallback = callback;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mLetterMap.isEmpty()) {
+        if (mLettersMap.isEmpty()) {
+            return false;
+        }
+        if (event.getX() < 0 || event.getX() > getWidth()
+                || event.getY() < 0 || event.getY() > getHeight()) {
+            setPressed(false);
             return false;
         }
         final int position = pointToPosition(event);
@@ -81,19 +106,20 @@ public class LetterView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-                mTipToast.show();
-                scrollToPosition(letter);
+                setPressed(true);
+                getHandler().removeCallbacks(mHideTipToast);
+                getHandler().post(mShowTipToast);
+                if (mCallback != null) {
+                    mCallback.scrollToPosition(letter.charAt(0));
+                }
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                mTipToast.cancel();
+                setPressed(false);
+                getHandler().postDelayed(mHideTipToast, 500);
                 return true;
         }
         return super.onTouchEvent(event);
-    }
-
-    private void scrollToPosition(final String letter) {
-
     }
 
     @Override
@@ -120,7 +146,7 @@ public class LetterView extends View {
             float startY = getPaddingTop() + textSize * (i + 1) + textSize * MARGIN_FACTOR * (i + 1);
             canvas.drawText(letter, startX, startY, mPaint);
             // canvas.drawCircle(startX, startY, 3, mPaint);
-            mLetterMap.put(letter, startY);
+            mLettersMap.put(letter, startY);
         }
         parentCanvas.drawBitmap(bitmap, getPaddingLeft(), getPaddingTop(), mPaint);
     }
@@ -128,7 +154,7 @@ public class LetterView extends View {
     private int pointToPosition(MotionEvent ev) {
         final float POINT_Y = ev.getY();
         for (int i = 0; i < mLetters.length; i++) {
-            final float START_Y = mLetterMap.get(mLetters[i]);
+            final float START_Y = mLettersMap.get(mLetters[i]);
             if (POINT_Y <= START_Y) {
                 return i;
             }

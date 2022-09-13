@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import csumissu.fakewechat.data.FriendshipResult;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.data.StatusResult;
 import csumissu.fakewechat.data.User;
@@ -57,14 +58,14 @@ public class EntityRepository implements EntityDataSource {
     }
 
     @Override
-    public Observable<List<User>> getFriends() {
-        Observable<List<User>> disk = mLocalDataSource.getFriends().doOnNext(this::saveFriends);
-        Observable<List<User>> network = mRemoteDataSource.getFriends().doOnNext(mLocalDataSource::saveFriends);
+    public Observable<FriendshipResult> getFriends() {
+        Observable<FriendshipResult> disk = mLocalDataSource.getFriends().doOnNext(this::saveFriends);
+        Observable<FriendshipResult> network = mRemoteDataSource.getFriends().doOnNext(mLocalDataSource::saveFriends);
         return Observable.concat(disk, network).first();
     }
 
     @Override
-    public void saveFriends(List<User> users) {
+    public void saveFriends(FriendshipResult result) {
         // Do nothing, as this data could be large.
     }
 

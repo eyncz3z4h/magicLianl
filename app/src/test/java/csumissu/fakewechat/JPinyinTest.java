@@ -29,9 +29,9 @@ public class JPinyinTest {
 
     @Test
     public void testAscIIAndHanzi() {
-        String pinyin = PinyinHelper.convertToPinyinString("a汉b字,", ",", PinyinFormat.WITHOUT_TONE);
+        String pinyin = PinyinHelper.convertToPinyinString("a汉B字,", ",", PinyinFormat.WITHOUT_TONE);
         System.out.println("AscIIAndHanzi=" + pinyin);
-        Assert.assertEquals("a,han,b,zi,,", pinyin);
+        Assert.assertEquals("a,han,B,zi,,", pinyin);
     }
 
     @Test

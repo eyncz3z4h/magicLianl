@@ -7,7 +7,9 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import csumissu.fakewechat.data.FriendshipResult;
@@ -61,25 +63,42 @@ public class RemoteDataSource implements EntityDataSource {
     }
 
     @Override
-    public Observable<List<User>> getFriends() {
+    public Observable<FriendshipResult> getFriends() {
         return mWeiboApi.getFriends(WeiboApi.ACCESS_TOKEN, WeiboApi.OWNER_UID)
-                .map(FriendshipResult::getUsers)
-                .map(users -> {
-                    if (users != null) {
-                        for (User user : users) {
-                            String pinyin = PinyinHelper.convertToPinyinString(
-                                    user.getName().trim(), "", PinyinFormat.WITHOUT_TONE);
-                            System.out.println("name=" + user.getName() + ", pinyin=" + pinyin);
-                            user.setPinyin(pinyin);
-                        }
-                        Collections.sort(users, (u1, u2) -> u1.getPinyin().compareTo(u2.getPinyin()));
+                .map(result -> {
+                    if (result.getUsers() == null) {
+                        result.setUsers(new ArrayList<>());
                     }
-                    return users;
+                    return result;
+                })
+                .map(result -> {
+                    for (User user : result.getUsers()) {
+                        String pinyin = PinyinHelper.convertToPinyinString(
+                                user.getName().trim(), "", PinyinFormat.WITHOUT_TONE);
+                        user.setPinyin(pinyin);
+                    }
+                    Collections.sort(result.getUsers(),
+                            (u1, u2) -> u1.getPinyin().compareTo(u2.getPinyin()));
+                    return result;
+                })
+                .map(result -> {
+                    HashMap<Character, Integer> map = result.getLetterPositionMap();
+                    List<User> users = result.getUsers();
+                    for (int i = 0; i < users.size(); i++) {
+                        char c = users.get(i).getPinyin().charAt(0);
+                        if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))) {
+                            c = '#';
+                        }
+                        if (!map.containsKey(c)) {
+                            map.put(c, i);
+                        }
+                    }
+                    return result;
                 });
     }
 
     @Override
-    public void saveFriends(List<User> users) {
+    public void saveFriends(FriendshipResult result) {
         throw new UnsupportedOperationException();
     }
 

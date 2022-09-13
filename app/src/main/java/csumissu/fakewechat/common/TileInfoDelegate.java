@@ -54,7 +54,8 @@ public class TileInfoDelegate implements IAdapterDelegate {
                 .placeholder(R.drawable.ic_photo_placeholder)
                 .into(viewHolder.photoView);
         viewHolder.nameView.setText(tileInfo.user.getName());
-        viewHolder.uidView.setText(mContext.getString(R.string.uid, tileInfo.user.getUid()));
+        // viewHolder.uidView.setText(mContext.getString(R.string.uid, tileInfo.user.getUid()));
+        viewHolder.uidView.setText(mContext.getString(R.string.email, "csumissu@icloud.com"));
     }
 
     static class TileInfoViewHolder extends RecyclerView.ViewHolder {

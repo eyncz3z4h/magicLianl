@@ -13,13 +13,11 @@ import android.widget.Toast;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
-import csumissu.fakewechat.data.User;
+import csumissu.fakewechat.data.FriendshipResult;
+import csumissu.fakewechat.widget.LetterView;
 
 import static csumissu.fakewechat.util.Preconditions.checkNotNull;
 
@@ -27,13 +25,16 @@ import static csumissu.fakewechat.util.Preconditions.checkNotNull;
  * @author sunyaxi
  * @date 2016/6/27
  */
-public class ContactsFragment extends Fragment implements ContactsContract.View {
+public class ContactsFragment extends Fragment implements ContactsContract.View,
+        LetterView.Callback {
 
     private ContactsContract.Presenter mPresenter;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.loading_tip)
     View mLoadingView;
+    @BindView(R.id.letters_nar_bar)
+    LetterView mLetterView;
     private ContactsAdapter mAdapter;
 
     @Nullable
@@ -65,23 +66,32 @@ public class ContactsFragment extends Fragment implements ContactsContract.View 
         }
     }
 
+    public void setLetterViewVisibility(boolean show) {
+        mLetterView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     public void showLoading(boolean show) {
         mLoadingView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
-    public void showFriends(List<User> friends) {
-        if (friends == null || friends.isEmpty()) {
+    public void showFriends(FriendshipResult result) {
+        if (result.getUsers().isEmpty()) {
             Toast.makeText(getContext(), R.string.no_friends, Toast.LENGTH_SHORT).show();
             return;
         }
-        mAdapter.setData(friends);
+        mAdapter.setData(result);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setPresenter(@NonNull ContactsContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void scrollToPosition(char letter) {
+        mRecyclerView.scrollToPosition(mAdapter.letter2Position(letter));
     }
 }

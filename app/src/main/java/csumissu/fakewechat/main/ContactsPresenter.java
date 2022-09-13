@@ -30,8 +30,8 @@ public class ContactsPresenter implements ContactsContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> mView.showLoading(true))
                 .doOnTerminate(() -> mView.showLoading(false))
-                .subscribe(users -> {
-                    mView.showFriends(users);
+                .subscribe(result -> {
+                    mView.showFriends(result);
                 });
     }
 
