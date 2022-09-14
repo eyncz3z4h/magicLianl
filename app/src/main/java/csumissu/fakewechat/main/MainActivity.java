@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import csumissu.fakewechat.AppConfig;
 import csumissu.fakewechat.AppManager;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.source.EntityRepository;
@@ -69,9 +68,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (AppConfig.getBoolean(AppConfig.KEY_DOUBLE_CLICK_EXIT, true)) {
-                return mDoubleClickExitHelper.onKeyDown(keyCode, event);
-            }
+            return mDoubleClickExitHelper.onKeyDown(keyCode, event);
         }
         return super.onKeyDown(keyCode, event);
     }

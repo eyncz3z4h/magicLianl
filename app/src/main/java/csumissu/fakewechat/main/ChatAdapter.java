@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,6 +33,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private static final int VIEW_TYPE_OTHER = 2;
     private List<Tweet> mTweets = new ArrayList<>();
     private final long OWNER_UID;
+    private HashSet<Long> mUserUidSet = new HashSet<>();
 
     public ChatAdapter(Context context) {
         mContext = context;
@@ -41,7 +43,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     public void setData(List<Tweet> tweets) {
         mTweets.clear();
-        mTweets.addAll(tweets);
+        mUserUidSet.clear();
+        if (tweets != null) {
+            mTweets.addAll(tweets);
+            for (Tweet tweet : mTweets) {
+                mUserUidSet.add(tweet.sender.getUid());
+            }
+        }
+    }
+
+    public void addNewTweet(Tweet tweet) {
+        mTweets.add(tweet);
+        mUserUidSet.add(tweet.sender.getUid());
+        notifyItemInserted(mTweets.size());
     }
 
     @Override
@@ -68,6 +82,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 .placeholder(R.drawable.ic_photo_placeholder)
                 .into(holder.photoView);
         holder.nameView.setText(tweet.sender.getName());
+        holder.nameView.setVisibility(mUserUidSet.size() > 2 ? View.VISIBLE : View.GONE);
         holder.contentView.setText(tweet.content);
     }
 

@@ -23,6 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int MSG_INIT = 0;
     private static final int MSG_LOOP = 1;
     private static final int MSG_MAIN = 2;
+    private static final int MSG_WAIT = 3;
     private final MyHandler mHandler = new MyHandler(this);
     @BindView(R.id.pw_spinner)
     ProgressWheel mProgressWheel;
@@ -76,7 +77,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     break;
                 case MSG_LOOP:
                     if (iProgress > 360) {
-                        sendEmptyMessage(MSG_MAIN);
+                        sendEmptyMessage(MSG_WAIT);
                     } else {
                         iProgress += 3;
                         activity.mProgressWheel.setProgress(iProgress);
@@ -87,6 +88,13 @@ public class WelcomeActivity extends AppCompatActivity {
                     Intent intent = new Intent(activity, MainActivity.class);
                     activity.startActivity(intent);
                     activity.finish();
+                    break;
+                case MSG_WAIT:
+                    if (AppContext.getInstance().getLoginUser() == null) {
+                        sendEmptyMessageDelayed(MSG_WAIT, 10);
+                    } else {
+                        sendEmptyMessage(MSG_MAIN);
+                    }
                     break;
             }
         }
