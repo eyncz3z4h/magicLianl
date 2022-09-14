@@ -22,6 +22,7 @@ public class AppConfig {
 
     private static final String TAG = AppConfig.class.getSimpleName();
 
+    public static final boolean DEBUG = true;
     public static final String KEY_USER = "KEY_USER";
     public static final String KEY_CHECK_UPDATE = "KEY_CHECK_UPDATE";
     public static final String KEY_DOUBLE_CLICK_EXIT = "KEY_DOUBLE_CLICK_EXIT";

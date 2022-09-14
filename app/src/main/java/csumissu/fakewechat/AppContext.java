@@ -1,6 +1,7 @@
 package csumissu.fakewechat;
 
 import android.app.Application;
+import android.os.StrictMode;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -22,6 +23,12 @@ public class AppContext extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (AppConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectAll().build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().build());
+        }
+
         sInstance = this;
         AppConfig.init(this);
 
