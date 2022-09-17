@@ -2,6 +2,9 @@ package csumissu.fakewechat.main;
 
 import android.support.annotation.NonNull;
 
+import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.components.support.RxFragment;
+
 import csumissu.fakewechat.data.source.EntityRepository;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -26,6 +29,7 @@ public class ContactsPresenter implements ContactsContract.Presenter {
     @Override
     public void loadAllFriends() {
         mRepository.getFriends()
+                .compose(((RxFragment) mView).bindUntilEvent(FragmentEvent.STOP))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> mView.showLoading(true))

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.trello.rxlifecycle.components.support.RxFragment;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
@@ -30,7 +30,7 @@ import static csumissu.fakewechat.util.Preconditions.checkNotNull;
  * @author sunyaxi
  * @date 2016/5/23
  */
-public class CommentsFragment extends Fragment implements CommentsContract.View,
+public class CommentsFragment extends RxFragment implements CommentsContract.View,
         SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = CommentsFragment.class.getSimpleName();
@@ -79,7 +79,8 @@ public class CommentsFragment extends Fragment implements CommentsContract.View,
         ButterKnife.bind(this, rootView);
         // 第一次进入页面的时候显示加载进度条
         mRefreshLayout.setProgressViewOffset(false, 0, (int) mProgressViewOffset);
-        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mRefreshLayout.setColorSchemeResources(R.color.orange, R.color.teal,
+                R.color.blue, R.color.brown);
         mRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setAdapter(mAdapter);

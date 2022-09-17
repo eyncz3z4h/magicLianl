@@ -2,6 +2,7 @@ package csumissu.fakewechat;
 
 import android.app.Application;
 import android.os.StrictMode;
+import android.util.Log;
 
 import csumissu.fakewechat.data.User;
 import csumissu.fakewechat.data.source.EntityRepository;
@@ -16,6 +17,7 @@ import rx.schedulers.Schedulers;
  */
 public class AppContext extends Application {
 
+    private static final String TAG = AppContext.class.getSimpleName();
     public boolean DEBUG = true;
     private static AppContext sInstance;
     private EntityRepository mRepository;
@@ -50,6 +52,8 @@ public class AppContext extends Application {
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .subscribe(user -> {
                         mOwner = user;
+                    }, throwable -> {
+                        Log.e(TAG, "get login user failed!", throwable);
                     });
         }
         return mOwner;

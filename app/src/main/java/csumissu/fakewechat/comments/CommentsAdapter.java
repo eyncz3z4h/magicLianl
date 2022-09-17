@@ -194,9 +194,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
             Glide.with(mContext).load(picture.getThumbnail())
                     .placeholder(R.drawable.ic_photo_placeholder)
                     .into(viewHolder.photo);
-            viewHolder.photo.setOnClickListener(view -> {
-                PictureViewFragment.show(mFragmentManager, pictures, position, mGridColumnSize);
-            });
+            viewHolder.photo.setOnClickListener(view ->
+                    PictureViewFragment.show(mFragmentManager, pictures, position, mGridColumnSize));
             return convertView;
         }
 

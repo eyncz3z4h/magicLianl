@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
@@ -39,8 +40,11 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
         mProgressWheel.setOnClickListener(view -> {
-            mHandler.removeMessages(MSG_LOOP);
-            mHandler.sendEmptyMessage(MSG_MAIN);
+            if (AppContext.getInstance().getLoginUser() != null) {
+                mHandler.removeMessages(MSG_LOOP);
+                mHandler.removeMessages(MSG_WAIT);
+                mHandler.sendEmptyMessage(MSG_MAIN);
+            }
         });
     }
 
@@ -60,6 +64,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private static class MyHandler extends Handler {
         private final WeakReference<WelcomeActivity> iActivity;
         private int iProgress = 0;
+        private int iWaitTimes = 0;
 
         public MyHandler(WelcomeActivity activity) {
             iActivity = new WeakReference<>(activity);
@@ -73,6 +78,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
             switch (msg.what) {
                 case MSG_INIT:
+                    iWaitTimes = 0;
                     iProgress = 0;
                     break;
                 case MSG_LOOP:
@@ -91,7 +97,13 @@ public class WelcomeActivity extends AppCompatActivity {
                     break;
                 case MSG_WAIT:
                     if (AppContext.getInstance().getLoginUser() == null) {
-                        sendEmptyMessageDelayed(MSG_WAIT, 10);
+                        if (iWaitTimes < 5) {
+                            iWaitTimes++;
+                            sendEmptyMessageDelayed(MSG_WAIT, 200);
+                        } else {
+                            Toast.makeText(activity, R.string.load_owner_failed, Toast.LENGTH_SHORT).show();
+                            activity.finish();
+                        }
                     } else {
                         sendEmptyMessage(MSG_MAIN);
                     }

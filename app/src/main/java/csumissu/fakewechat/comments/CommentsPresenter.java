@@ -2,6 +2,9 @@ package csumissu.fakewechat.comments;
 
 import android.support.annotation.NonNull;
 
+import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.components.support.RxFragment;
+
 import csumissu.fakewechat.data.source.EntityRepository;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -31,6 +34,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     @Override
     public void loadAllStatuses() {
         mRepository.getStatusResult()
+                .compose(((RxFragment) mView).bindUntilEvent(FragmentEvent.STOP))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> mView.setRefreshIndicator(true))
@@ -49,6 +53,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
     private void loadStatuses(int page, final boolean showLoadingUI) {
         mRepository.getStatuses(20, page)
+                .compose(((RxFragment) mView).bindUntilEvent(FragmentEvent.STOP))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> {
