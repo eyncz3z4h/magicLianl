@@ -6,18 +6,20 @@
                 android:background="@drawable/welcome_bg">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/welcome_earth"/>
-
-    <ImageView
+        android:id="@+id/people"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@drawable/welcome_people"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/people"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/welcome_earth"/>
 
     <csumissu.fakewechat.widget.ProgressWheel
         android:id="@+id/pw_spinner"
@@ -26,10 +28,10 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_margin="16dp"
-        app:pwBarColor="@android:color/white"
+        app:pwBarColor="@color/brown"
         app:pwBarLength="60dp"
         app:pwBarWidth="3dp"
-        app:pwRimColor="#330097D6"
+        app:pwRimColor="@color/ghostWhite"
         app:pwRimWidth="2dp"
         app:pwText="@string/skip"
         app:pwTextColor="@android:color/white"
