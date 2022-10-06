@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ import rx.schedulers.Schedulers;
  */
 public class ChatFragment extends Fragment {
 
+    private static final String TAG = ChatFragment.class.getSimpleName();
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.send)
@@ -93,8 +96,12 @@ public class ChatFragment extends Fragment {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(turingResponse -> {
+                            Log.i(TAG, "response=" + turingResponse);
                             Tweet robotTweet = new Tweet();
                             robotTweet.content = turingResponse.getText();
+                            if (!TextUtils.isEmpty(turingResponse.getUrl())) {
+                                robotTweet.content += '\n' + turingResponse.getUrl();
+                            }
                             robotTweet.sender = mRobotUser;
                             mAdapter.addNewTweet(robotTweet);
                         });

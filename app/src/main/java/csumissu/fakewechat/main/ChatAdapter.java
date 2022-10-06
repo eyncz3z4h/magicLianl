@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import csumissu.fakewechat.AppContext;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.User;
+import csumissu.fakewechat.util.WeiboUtils;
 
 /**
  * @author sunyaxi
@@ -83,7 +84,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 .into(holder.photoView);
         holder.nameView.setText(tweet.sender.getName());
         holder.nameView.setVisibility(mUserUidSet.size() > 2 ? View.VISIBLE : View.GONE);
-        holder.contentView.setText(tweet.content);
+        holder.contentView.setText(WeiboUtils.transformContent(mContext,
+                tweet.content, (int) holder.contentView.getTextSize()));
     }
 
     @Override

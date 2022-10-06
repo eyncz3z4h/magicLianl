@@ -145,7 +145,7 @@ public class WeiboUtils {
 
         public MyImageSpan(Context context, @DrawableRes int resourceId, int drawableSize,
                            @StringRes int strId, @ColorInt int linkColor) {
-            super(context, resourceId, ALIGN_BASELINE);
+            super(context, resourceId, ALIGN_BOTTOM);
             iContext = context;
             iDrawableSize = drawableSize;
             iStrResId = strId;
