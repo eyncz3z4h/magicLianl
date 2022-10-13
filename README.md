@@ -4,11 +4,17 @@
 
 #### 项目简述
 
-项目采用了Material风格，实现了微信的欢迎界面、主界面、朋友圈三个部分。
+项目采用MVP设计模式，完全Material Design风格，实现了微信的欢迎界面、主界面、朋友圈三个部分。
 
 1. 欢迎界面
 
-![欢迎界面](docs/welcome.png "欢迎界面")
+![欢迎界面](http://git.oschina.net/uploads/images/2016/0706/184421_9530119e_17571.png "欢迎界面")
+![主界面](http://git.oschina.net/uploads/images/2016/0706/184449_0deed53d_17571.gif "主界面")
+![聊天界面](http://git.oschina.net/uploads/images/2016/0706/184501_1b4355b2_17571.png "聊天界面")
+![通讯录界面](http://git.oschina.net/uploads/images/2016/0706/184515_0fc89b3c_17571.gif "通讯录界面")
+![发现界面](http://git.oschina.net/uploads/images/2016/0706/184528_af2972d0_17571.png "发现界面")
+![我的界面](http://git.oschina.net/uploads/images/2016/0706/184539_02bcda1c_17571.png "我的界面")
+![朋友圈](http://git.oschina.net/uploads/images/2016/0706/184553_c30b50a6_17571.gif "朋友圈")
 
 2. 主界面  *主界面效果如图所示，包含聊天、通讯录、发现、我*
 
