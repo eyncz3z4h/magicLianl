@@ -25,12 +25,19 @@
 #### “发现”和“我”标签页 ####
 这两个标签页的数据简单、重复，故将布局类型分为了三类：[间隔](http://git.oschina.net/csumissu/FakeWeChat/blob/master/app/src/main/java/csumissu/fakewechat/common/TileGapDelegate.java)、[菜单](http://git.oschina.net/csumissu/FakeWeChat/blob/master/app/src/main/java/csumissu/fakewechat/common/TileMenuDelegate.java)、[个人信息](http://git.oschina.net/csumissu/FakeWeChat/blob/master/app/src/main/java/csumissu/fakewechat/common/TileInfoDelegate.java)，在RecyclerView.Adapter中采用聚合模式方便扩展。  
 
-![发现界面](http://git.oschina.net/uploads/images/2016/0706/184528_af2972d0_17571.png "发现界面")
+![发现界面](http://git.oschina.net/uploads/images/2016/0706/184528_af2972d0_17571.png "发现界面") 
 ![我的界面](http://git.oschina.net/uploads/images/2016/0706/184539_02bcda1c_17571.png "我的界面")
 
 ### 朋友圈 ###
+* 头部使用AppBarLayout加CollapsingToolbarLayout实现可伸缩效果。
+* 使用SwipeRefreshLayout进行下拉刷新，上滑更多通过RecyclerView的addOnScrollListener实现。
+* 微博中的文字中关键字高亮、表情替换，参考[高仿新浪微博文字处理](http://www.cnblogs.com/lichenwei/p/4676214.html)。
+* 图片查看使用的开源控件[PhotoView](https://github.com/chrisbanes/PhotoView)。
 
+![朋友圈](http://git.oschina.net/uploads/images/2016/0706/184553_c30b50a6_17571.gif "朋友圈")
 
+### 联系方式 ###
+邮箱：csumissu@icloud.com
 
 ### 参考项目 ###
 * [android-architecture]( https://github.com/googlesamples/android-architecture)
