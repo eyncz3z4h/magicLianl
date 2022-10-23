@@ -13,7 +13,7 @@
 
 ### 主界面 ###
 #### “微信”标签页 ####
-因为[新浪微博API](http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI)没有返回私信的接口，所以直接展示聊天的界面，采用[图灵聊天机器人](http://www.tuling123.com/)。  
+因为[新浪微博API](http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI)没有返回私信的接口，所以直接展示聊天的界面，采用[图灵聊天机器人](http://www.tuling123.com/)进行会话。  
 
 ![聊天界面](http://git.oschina.net/uploads/images/2016/0706/184501_1b4355b2_17571.png "聊天界面")
 
