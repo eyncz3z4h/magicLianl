@@ -36,6 +36,10 @@
 
 ![朋友圈](http://git.oschina.net/uploads/images/2016/0706/184553_c30b50a6_17571.gif "朋友圈")
 
+### TODO ###
+* 聊天详情界面通过滑动返回聊天列表界面。
+* 朋友圈点击图片预览缩放定位效果。
+
 ### 联系方式 ###
 邮箱：csumissu@icloud.com
 
