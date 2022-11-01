@@ -1,9 +1,9 @@
 ## [FakeWeChat 仿微信](http://git.oschina.net/csumissu/FakeWeChat) ##
 **界面高仿微信，数据来自[新浪微博API](http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI)。**
-**可以在项目附件中直接下载APK**
+
 
 ### 项目简述 ###
-项目采用[MVP-Rxjava](https://github.com/googlesamples/android-architecture/tree/dev-todo-mvp-rxjava/)设计模式，完全Material Design风格，实现了微信的部分界面功能。  
+项目采用[MVP-Rxjava](https://github.com/googlesamples/android-architecture/tree/dev-todo-mvp-rxjava/)设计模式，完全Material Design风格，实现了微信的部分界面功能。[APK下载](http://git.oschina.net/csumissu/FakeWeChat/attach_files)  
 
 ![主界面](http://git.oschina.net/uploads/images/2016/0706/184449_0deed53d_17571.gif "主界面")
 
