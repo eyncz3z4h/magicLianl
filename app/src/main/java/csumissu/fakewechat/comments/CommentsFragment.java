@@ -20,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.listener.OnRecyclerViewScrollListener;
@@ -45,6 +46,8 @@ public class CommentsFragment extends RxFragment implements CommentsContract.Vie
     private boolean mIsLoadingMore = false;
     private int mCurrentPage = 0;
     private static final int MAX_PAGE = 10;
+
+    private Unbinder mUnbinder;
 
     public CommentsFragment() {
         // Requires empty public constructor
@@ -76,7 +79,7 @@ public class CommentsFragment extends RxFragment implements CommentsContract.Vie
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_comments, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
         // 第一次进入页面的时候显示加载进度条
         mRefreshLayout.setProgressViewOffset(false, 0, (int) mProgressViewOffset);
         mRefreshLayout.setColorSchemeResources(R.color.orange, R.color.teal,
@@ -109,6 +112,12 @@ public class CommentsFragment extends RxFragment implements CommentsContract.Vie
             }
         });
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     @Override

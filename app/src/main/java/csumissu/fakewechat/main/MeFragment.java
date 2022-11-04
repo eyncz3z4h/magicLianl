@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import csumissu.fakewechat.AppContext;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.common.TileAdapter;
@@ -31,13 +32,14 @@ public class MeFragment extends Fragment {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+    private Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_explore, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
         // 禁止多点触发
         mRecyclerView.setMotionEventSplittingEnabled(false);
         mRecyclerView.setHasFixedSize(true);
@@ -52,6 +54,12 @@ public class MeFragment extends Fragment {
         setDefaultData(adapter);
         mRecyclerView.setAdapter(adapter);
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     private void setDefaultData(TileAdapter adapter) {

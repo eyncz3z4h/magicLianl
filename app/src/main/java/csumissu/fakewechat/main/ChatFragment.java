@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import csumissu.fakewechat.AppContext;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.User;
@@ -54,6 +55,7 @@ public class ChatFragment extends Fragment {
     private User mOwner;
     private TuringRobotApi mTuringService;
     private InputMethodManager mInputMethodManager;
+    private Unbinder mUnbinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_chat, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
         FontUtils.markAsIcon(getContext(), mSendView);
         mSendView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +136,7 @@ public class ChatFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mUnbinder.unbind();
         mAdapter.unregisterAdapterDataObserver(mDataObserver);
     }
 

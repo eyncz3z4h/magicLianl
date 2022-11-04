@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.Status;
 import csumissu.fakewechat.listener.SimpleGlideListener;
@@ -40,6 +41,8 @@ public class PictureViewFragment extends DialogFragment {
     ViewPager mViewpager;
     @BindView(R.id.indicator)
     CircleIndicator mIndicator;
+
+    private Unbinder mUnbinder;
 
     public PictureViewFragment() {
         // Empty constructor required for DialogFragment
@@ -73,13 +76,19 @@ public class PictureViewFragment extends DialogFragment {
         int thumbnailSize = args.getInt(KEY_THUMBNAIL);
 
         View rootView = inflater.inflate(R.layout.fragment_picture_view, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
         PicturePagerAdapter adapter = new PicturePagerAdapter(pictures);
         adapter.setThumbnailSize(thumbnailSize);
         mViewpager.setAdapter(adapter);
         mViewpager.setCurrentItem(selectedIndex);
         mIndicator.setViewPager(mViewpager);
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     class PicturePagerAdapter extends PagerAdapter {

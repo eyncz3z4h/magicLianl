@@ -15,6 +15,7 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.data.FriendshipResult;
 import csumissu.fakewechat.widget.LetterView;
@@ -36,13 +37,14 @@ public class ContactsFragment extends RxFragment implements ContactsContract.Vie
     @BindView(R.id.letters_nar_bar)
     LetterView mLetterView;
     private ContactsAdapter mAdapter;
+    private Unbinder mUnbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
-        ButterKnife.bind(this, rootView);
+        mUnbinder = ButterKnife.bind(this, rootView);
         // 禁止多点触发
         mRecyclerView.setMotionEventSplittingEnabled(false);
         mRecyclerView.setHasFixedSize(true);
@@ -56,6 +58,12 @@ public class ContactsFragment extends RxFragment implements ContactsContract.Vie
         mAdapter = new ContactsAdapter(getContext());
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
     }
 
     @Override
