@@ -75,7 +75,9 @@ public class ContactsFragment extends RxFragment implements ContactsContract.Vie
     }
 
     public void setLetterViewVisibility(boolean show) {
-        mLetterView.setVisibility(show ? View.VISIBLE : View.GONE);
+        if (mLetterView != null) {
+            mLetterView.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override
