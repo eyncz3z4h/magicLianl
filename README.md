@@ -1,5 +1,6 @@
 ## [FakeWeChat 仿微信](http://git.oschina.net/csumissu/FakeWeChat) ##
 **界面高仿微信，数据来自[新浪微博API](http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI)。**
+**仅供大家学习交流，不得用于商业用途。**
 
 
 ### 项目简述 ###
