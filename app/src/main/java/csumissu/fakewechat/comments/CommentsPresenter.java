@@ -2,7 +2,7 @@ package csumissu.fakewechat.comments;
 
 import android.support.annotation.NonNull;
 
-import com.trello.rxlifecycle.FragmentEvent;
+import com.trello.rxlifecycle.android.FragmentEvent;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
 import csumissu.fakewechat.data.source.EntityRepository;

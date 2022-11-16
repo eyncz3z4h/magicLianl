@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import csumissu.fakewechat.AppContext;
 import csumissu.fakewechat.R;
+import csumissu.fakewechat.base.BaseChildActivity;
 import csumissu.fakewechat.data.User;
 import csumissu.fakewechat.data.source.EntityRepository;
 import csumissu.fakewechat.data.source.local.LocalDataSource;
@@ -28,7 +28,7 @@ import csumissu.fakewechat.util.ActivityUtils;
  * @author sunyaxi
  * @date 2016/5/23
  */
-public class CommentsActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
+public class CommentsActivity extends BaseChildActivity implements AppBarLayout.OnOffsetChangedListener {
 
     private static final String TAG = CommentsActivity.class.getSimpleName();
     @BindView(R.id.toolbar)

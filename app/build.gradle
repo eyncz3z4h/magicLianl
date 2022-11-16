@@ -67,6 +67,7 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.2.2'
     compile 'com.github.stuxuhai:jpinyin:1.1.5'
+    compile 'com.jude:swipebackhelper:3.1.2'
     // Dependencies for local unit tests
     testCompile "junit:junit:$rootProject.ext.junitVersion"
     testCompile files('libs/json-20160212.jar')
