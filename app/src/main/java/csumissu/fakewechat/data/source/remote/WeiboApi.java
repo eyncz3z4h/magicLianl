@@ -13,7 +13,7 @@ import rx.Observable;
  */
 public interface WeiboApi {
 
-    String ACCESS_TOKEN = "2.00CWl4eCEgoNVE91f6c1c061uuYprB";
+    String ACCESS_TOKEN = "2.00CWl4eCEgoNVE3f356135f5yAeu6E";
     long OWNER_UID = 2428983302L;
 
     @GET("2/users/show.json")
