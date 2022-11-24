@@ -1,7 +1,5 @@
 package csumissu.fakewechat.v2.model;
 
-import android.util.Log;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -18,7 +16,6 @@ import rx.Observable;
 @Singleton
 public class UserRepository implements UserDataSource {
 
-    private static final String TAG = UserRepository.class.getSimpleName();
     private final UserDataSource mRemoteDataSource;
     private final UserDataSource mLocalDataSource;
 
@@ -34,7 +31,6 @@ public class UserRepository implements UserDataSource {
         Observable<User> disk = mLocalDataSource.getOwner();
         Observable<User> network = mRemoteDataSource.getOwner()
                 .doOnNext(user -> {
-                    Log.i(TAG, "save owner " + user);
                     if (mLocalDataSource instanceof UserLocalDataSource) {
                         ((UserLocalDataSource) mLocalDataSource).saveOwner(user);
                     }

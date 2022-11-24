@@ -6,16 +6,12 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-
 import javax.inject.Inject;
 
 /**
  * @author sunyaxi
  * @date 2016/11/17.
  */
-@Entity
 public class Picture implements Parcelable {
 
     private long statusId;
@@ -71,12 +67,6 @@ public class Picture implements Parcelable {
     protected Picture(Parcel in) {
         this.statusId = in.readLong();
         this.thumbnail = in.readString();
-    }
-
-    @Generated(hash = 717020172)
-    public Picture(long statusId, String thumbnail) {
-        this.statusId = statusId;
-        this.thumbnail = thumbnail;
     }
 
     public static final Creator<Picture> CREATOR = new Creator<Picture>() {

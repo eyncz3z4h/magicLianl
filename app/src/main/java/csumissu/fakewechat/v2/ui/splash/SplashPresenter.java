@@ -2,6 +2,8 @@ package csumissu.fakewechat.v2.ui.splash;
 
 import android.util.Log;
 
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
 import javax.inject.Inject;
 
 import csumissu.fakewechat.v2.model.UserRepository;
@@ -12,7 +14,7 @@ import rx.schedulers.Schedulers;
  * @author sunyaxi
  * @date 2016/11/17.
  */
-public class SplashPresenter implements SplashContract.Presenter {
+class SplashPresenter implements SplashContract.Presenter {
 
     private static final String TAG = SplashPresenter.class.getSimpleName();
     private final UserRepository mUserRepository;
@@ -34,8 +36,12 @@ public class SplashPresenter implements SplashContract.Presenter {
     @Override
     public void start() {
         mUserRepository.getOwner()
+                .compose(((RxAppCompatActivity) mSplashView).bindToLifecycle())
                 .subscribeOn(Schedulers.io())
+                .doOnSubscribe(() -> mSplashView.showLoading(true))
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnTerminate(() -> mSplashView.showLoading(false))
                 .subscribe(user -> {
                     mSplashView.enterMainActivity();
                 }, throwable -> {

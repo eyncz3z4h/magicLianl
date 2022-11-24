@@ -12,6 +12,8 @@ public interface SplashContract {
     interface View extends BaseView<Presenter> {
         void enterMainActivity();
 
+        void showLoading(boolean show);
+
         void showError(String message);
     }
 
