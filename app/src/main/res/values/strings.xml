@@ -28,6 +28,6 @@
     <string name="receive_payment">收付款</string>
     <string name="help_and_feedback">帮助与反馈</string>
     <string name="no_friends">没有好友</string>
-    <string name="loading">正在加载...</string>
+    <string name="loading">正在加载…</string>
     <string name="load_owner_failed">无法加载用户信息，请检查网络连接！</string>
 </resources>

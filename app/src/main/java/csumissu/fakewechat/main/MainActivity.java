@@ -76,13 +76,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private void initViews(int selectedPosition) {
         mBottomNavBar.setMode(BottomNavigationBar.MODE_FIXED);
         mBottomNavBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
-        mBottomNavBar.addItem(new BottomNavigationItem(R.drawable.ic_donut_large_24dp, R.string.tab_chat)
+        mBottomNavBar.addItem(new BottomNavigationItem(R.drawable.ic_donut_large, R.string.tab_chat)
                 .setActiveColorResource(R.color.colorAccent))
-                .addItem(new BottomNavigationItem(R.drawable.ic_account_circle_24dp, R.string.tab_contacts)
+                .addItem(new BottomNavigationItem(R.drawable.ic_account_circle, R.string.tab_contacts)
                         .setActiveColorResource(R.color.colorAccent))
-                .addItem(new BottomNavigationItem(R.drawable.ic_explore_24dp, R.string.tab_explore)
+                .addItem(new BottomNavigationItem(R.drawable.ic_explore, R.string.tab_explore)
                         .setActiveColorResource(R.color.colorAccent))
-                .addItem(new BottomNavigationItem(R.drawable.ic_face_24dp, R.string.tab_me)
+                .addItem(new BottomNavigationItem(R.drawable.ic_face, R.string.tab_me)
                         .setActiveColorResource(R.color.colorAccent))
                 .setFirstSelectedPosition(selectedPosition)
                 .initialise();

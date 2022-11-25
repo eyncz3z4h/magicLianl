@@ -6,7 +6,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import javax.inject.Inject;
 
-import csumissu.fakewechat.v2.model.UserRepository;
+import csumissu.fakewechat.v2.model.WeiboRepository;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -17,13 +17,13 @@ import rx.schedulers.Schedulers;
 class SplashPresenter implements SplashContract.Presenter {
 
     private static final String TAG = SplashPresenter.class.getSimpleName();
-    private final UserRepository mUserRepository;
+    private final WeiboRepository mWeiboRepository;
     private final SplashContract.View mSplashView;
 
     @Inject
-    SplashPresenter(UserRepository userRepository, SplashContract.View view) {
+    SplashPresenter(WeiboRepository weiboRepository, SplashContract.View view) {
         Log.i(TAG, "splash presenter constructor");
-        mUserRepository = userRepository;
+        mWeiboRepository = weiboRepository;
         mSplashView = view;
     }
 
@@ -35,7 +35,7 @@ class SplashPresenter implements SplashContract.Presenter {
 
     @Override
     public void start() {
-        mUserRepository.getOwner()
+        mWeiboRepository.getOwner()
                 .compose(((RxAppCompatActivity) mSplashView).bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(() -> mSplashView.showLoading(true))

@@ -28,6 +28,7 @@ public class WechatApp extends Application {
         enableStrictMode();
         initLeakCanary();
         initAppComponent();
+        AppProps.init(this);
     }
 
     public AppComponent component() {

@@ -8,7 +8,7 @@ import csumissu.fakewechat.v2.dagger.ForApplication;
 import csumissu.fakewechat.v2.dagger.ReadableDb;
 import csumissu.fakewechat.v2.dagger.WritableDb;
 import csumissu.fakewechat.v2.dao.DaoSession;
-import csumissu.fakewechat.v2.model.UserRepository;
+import csumissu.fakewechat.v2.model.WeiboRepository;
 import dagger.Component;
 
 /**
@@ -24,12 +24,6 @@ public interface AppComponent {
     @ForApplication
     Context getApplicationContext();
 
-    @ReadableDb
-    DaoSession getReadableDaoSession();
-
-    @WritableDb
-    DaoSession getWritableDaoSession();
-
-    UserRepository getUserRepository();
+    WeiboRepository getWeiboRepository();
 
 }

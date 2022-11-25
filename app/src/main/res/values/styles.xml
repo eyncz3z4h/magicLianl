@@ -8,6 +8,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat</item>
+        <item name="android:windowBackground">@color/whiteSmoke</item>
         <item name="android:windowIsTranslucent">false</item>
     </style>
 
@@ -25,6 +26,21 @@
     <style name="AppTheme.NoActionBar.SwipeBack">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@style/SlideRightAnimation</item>
+    </style>
+
+    <style name="AppTextAppearanceLarge">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTextAppearanceMedium" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textColor">@color/dimGray</item>
+    </style>
+
+    <style name="AppTextAppearanceSmall" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="WindowAnimStyle">

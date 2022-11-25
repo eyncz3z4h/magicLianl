@@ -6,6 +6,8 @@ import org.greenrobot.greendao.database.Database;
 
 import javax.inject.Singleton;
 
+import csumissu.fakewechat.v2.api.ApiClient;
+import csumissu.fakewechat.v2.api.ApiService;
 import csumissu.fakewechat.v2.dagger.ForApplication;
 import csumissu.fakewechat.v2.dagger.Local;
 import csumissu.fakewechat.v2.dagger.ReadableDb;
@@ -13,9 +15,9 @@ import csumissu.fakewechat.v2.dagger.Remote;
 import csumissu.fakewechat.v2.dagger.WritableDb;
 import csumissu.fakewechat.v2.dao.DaoMaster;
 import csumissu.fakewechat.v2.dao.DaoSession;
-import csumissu.fakewechat.v2.model.UserDataSource;
-import csumissu.fakewechat.v2.model.local.UserLocalDataSource;
-import csumissu.fakewechat.v2.model.remote.UserRemoteDataSource;
+import csumissu.fakewechat.v2.model.WeiboDataSource;
+import csumissu.fakewechat.v2.model.local.WeiboLocalDataSource;
+import csumissu.fakewechat.v2.model.remote.WeiboRemoteDataSource;
 import dagger.Module;
 import dagger.Provides;
 
@@ -60,15 +62,23 @@ public class AppModule {
     @Provides
     @Singleton
     @Local
-    UserDataSource provideUserLocalDataSource(@ForApplication Context context) {
-        return new UserLocalDataSource(context);
+    WeiboDataSource provideUserLocalDataSource(@ForApplication Context context,
+                                               @ReadableDb DaoSession readableDao,
+                                               @WritableDb DaoSession writableDao) {
+        return new WeiboLocalDataSource(context, readableDao, writableDao);
+    }
+
+    @Provides
+    @Singleton
+    ApiService provideApiService() {
+        return ApiClient.create(ApiService.class);
     }
 
     @Provides
     @Singleton
     @Remote
-    UserDataSource provideUserRemoteDataSource() {
-        return new UserRemoteDataSource();
+    WeiboDataSource provideUserRemoteDataSource(ApiService apiService) {
+        return new WeiboRemoteDataSource(apiService);
     }
 
 }

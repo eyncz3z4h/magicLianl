@@ -67,12 +67,12 @@ public class MeFragment extends Fragment {
         items.add(new TileGapDelegate.TileGap());
         items.add(new TileInfoDelegate.TileInfo(AppContext.getInstance().getLoginUser()));
         items.add(new TileGapDelegate.TileGap());
-        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_panorama_24dp, R.string.album));
+        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_panorama, R.string.album));
         items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_star, R.string.star));
         items.add(new TileGapDelegate.TileGap());
-        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_insert_emoticon_24dp, R.string.emotion));
+        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_insert_emoticon, R.string.emotion));
         items.add(new TileGapDelegate.TileGap());
-        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_settings_24dp, R.string.settings));
+        items.add(new TileMenuDelegate.TileMenu(R.drawable.ic_settings, R.string.settings));
         adapter.setData(items);
     }
 }

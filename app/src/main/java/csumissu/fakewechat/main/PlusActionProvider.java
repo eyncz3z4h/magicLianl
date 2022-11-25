@@ -35,7 +35,7 @@ public class PlusActionProvider extends ActionProvider {
     public View onCreateActionView() {
         MenuActionView menuActionView = new MenuActionView(mContext);
         menuActionView.setProvider(this);
-        menuActionView.setIcon(R.drawable.ic_add_24dp);
+        menuActionView.setIcon(R.drawable.ic_add);
         menuActionView.setTitle(R.string.add_more);
         menuActionView.setDataSource(mDataSource);
         return menuActionView;
