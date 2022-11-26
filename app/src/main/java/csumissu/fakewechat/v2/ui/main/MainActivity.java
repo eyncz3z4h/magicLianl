@@ -10,12 +10,15 @@ import android.view.Menu;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import csumissu.fakewechat.R;
 import csumissu.fakewechat.v2.base.BaseActivity;
+import csumissu.fakewechat.v2.msg.ScrollStateEvent;
 import csumissu.fakewechat.v2.ui.contact.ContactFragment;
 import csumissu.fakewechat.v2.ui.home.HomeFragment;
 
@@ -150,6 +153,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        EventBus.getDefault().post(new ScrollStateEvent(state));
     }
 }

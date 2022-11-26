@@ -9,8 +9,8 @@ import dagger.Component;
  * @date 2016/11/17.
  */
 @ActivityScope
-@Component(dependencies = AppComponent.class, modules = SplashPresenterModule.class)
-public interface SplashComponent {
+@Component(dependencies = AppComponent.class, modules = SplashModule.class)
+interface SplashComponent {
 
     void inject(SplashActivity activity);
 

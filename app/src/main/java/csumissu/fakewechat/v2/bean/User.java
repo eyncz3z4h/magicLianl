@@ -20,7 +20,7 @@ import javax.inject.Inject;
 public class User implements Parcelable {
 
     @Id
-    private long id;
+    private Long id;
     @NotNull
     private String name;
     @SerializedName("profile_image_url")
@@ -34,11 +34,11 @@ public class User implements Parcelable {
     public User() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -82,6 +82,10 @@ public class User implements Parcelable {
         this.pinyin = pinyin;
     }
 
+    public char getFirstLetter() {
+        return this.pinyin.toUpperCase().charAt(0);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -101,7 +105,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
+        dest.writeValue(this.id);
         dest.writeString(this.name);
         dest.writeString(this.imageUrl);
         dest.writeString(this.gender);
@@ -110,7 +114,7 @@ public class User implements Parcelable {
     }
 
     protected User(Parcel in) {
-        this.id = in.readLong();
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
         this.name = in.readString();
         this.imageUrl = in.readString();
         this.gender = in.readString();
@@ -118,8 +122,8 @@ public class User implements Parcelable {
         this.pinyin = in.readString();
     }
 
-    @Generated(hash = 2112181136)
-    public User(long id, @NotNull String name, String imageUrl, String gender,
+    @Generated(hash = 1160459318)
+    public User(Long id, @NotNull String name, String imageUrl, String gender,
             String avatarUrl, String pinyin) {
         this.id = id;
         this.name = name;

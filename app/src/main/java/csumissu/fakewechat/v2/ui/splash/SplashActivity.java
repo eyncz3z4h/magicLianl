@@ -113,7 +113,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     private void initInject() {
         Log.i(TAG, "init inject");
         DaggerSplashComponent.builder()
-                .splashPresenterModule(new SplashPresenterModule(this))
+                .splashModule(new SplashModule(this))
                 .appComponent(getApplicationComponent())
                 .build()
                 .inject(this);

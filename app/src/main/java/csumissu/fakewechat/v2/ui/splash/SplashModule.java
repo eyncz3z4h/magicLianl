@@ -9,11 +9,11 @@ import dagger.Provides;
  * @date 2016/11/17.
  */
 @Module
-public class SplashPresenterModule {
+class SplashModule {
 
     private final SplashContract.View mView;
 
-    public SplashPresenterModule(SplashContract.View view) {
+    SplashModule(SplashContract.View view) {
         mView = view;
     }
 

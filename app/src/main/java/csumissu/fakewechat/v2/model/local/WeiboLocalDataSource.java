@@ -59,6 +59,7 @@ public class WeiboLocalDataSource implements WeiboDataSource {
         List<User> users = mReadableDao.getUserDao().queryBuilder()
                 .orderAsc(UserDao.Properties.Pinyin)
                 .list();
+        Log.i(TAG, "get local friends " + users);
         return users.isEmpty() ? Observable.empty() : Observable.just(users);
     }
 
@@ -99,7 +100,7 @@ public class WeiboLocalDataSource implements WeiboDataSource {
         if (users == null || users.isEmpty()) {
             mWritableDao.getUserDao().deleteAll();
         } else {
-            mWritableDao.getUserDao().saveInTx(users);
+            mWritableDao.getUserDao().insertOrReplaceInTx(users);
         }
     }
 
