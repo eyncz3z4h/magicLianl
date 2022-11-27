@@ -20,7 +20,6 @@ import csumissu.fakewechat.R;
 import csumissu.fakewechat.v2.base.BaseActivity;
 import csumissu.fakewechat.v2.msg.ScrollStateEvent;
 import csumissu.fakewechat.v2.ui.contact.ContactFragment;
-import csumissu.fakewechat.v2.ui.home.HomeFragment;
 
 /**
  * @author sunyaxi

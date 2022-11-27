@@ -75,5 +75,7 @@ public class TileAdapter extends RecyclerView.Adapter {
         mAdapterMap.put(menuDelegate.getViewType(), menuDelegate);
         TileUserDelegate userDelegate = new TileUserDelegate(context);
         mAdapterMap.put(userDelegate.getViewType(), userDelegate);
+        TileGroupDelegate groupDelegate = new TileGroupDelegate(context);
+        mAdapterMap.put(groupDelegate.getViewType(), groupDelegate);
     }
 }
